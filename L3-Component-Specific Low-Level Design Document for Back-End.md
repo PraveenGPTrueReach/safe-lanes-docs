@@ -143,7 +143,7 @@ erDiagram
         string violationCodes
         string block_1
         string block_2
-        ...
+        string block_47
         string block_48
         string localOffset
         datetime createdAt
@@ -217,7 +217,7 @@ For all updates (rest hours or tasks), the new record replaces the old if its up
 1. **Indexing**:  
    - Index updatedAt and (vesselId, recordDate) to speed up sync queries and day-based lookups.  
 2. **Batch Sync**:  
-   - Each row’s insert/update commits individually, preventing lock contention.  
+   - Each row's insert/update commits individually, preventing lock contention.  
 3. **Simple Table Layout**:  
    - No partitioning or advanced sharding is performed given the moderate expected data volumes.  
 4. Potential Future Archiving:  

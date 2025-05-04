@@ -1,6 +1,6 @@
 ## L1-HLD: High-Level Design (HLD) Document
 
-This document provides a concise, high-level overview of the SafeLanes Rest Hours solution’s architecture. It describes the major system components, their interactions, data flows, technology choices, security strategies, and deployment considerations. Detailed low-level design specifications and granular implementation details are documented separately in L3-LLD (component-level) documents.
+This document provides a concise, high-level overview of the SafeLanes Rest Hours solution's architecture. It describes the major system components, their interactions, data flows, technology choices, security strategies, and deployment considerations. Detailed low-level design specifications and granular implementation details are documented separately in L3-LLD (component-level) documents.
 
 ---
 
@@ -52,7 +52,7 @@ flowchart TB
 ```
 
 ### Front-End (Angular Microfrontend)
-- Deployed as a Module-Federation-based microfrontend for the existing SafeLanes “Sail App.”  
+- Deployed as a Module-Federation-based microfrontend for the existing SafeLanes "Sail App."  
 - On vessels, an offline fallback bundle is served locally if remote endpoints are unreachable.  
 - Office-side users see comprehensive analytics for multiple vessels, while vessel-side front-end focuses on daily logs and departmental oversight.  
 Note: If the host environment cannot be upgraded to Angular 16, a minimal fallback approach (e.g., web component wrapper or an iframe-based isolation) can be employed, as outlined in L1-OVERVIEW, until the host is updated.
@@ -64,7 +64,7 @@ Note: If the host environment cannot be upgraded to Angular 16, a minimal fallba
 
 ### Databases (MySQL)
 - Vessel database stores offline data and merges it with the office DB when online.  
-- Office database aggregates the fleet’s rest-hour information, enabling advanced analytics.  
+- Office database aggregates the fleet's rest-hour information, enabling advanced analytics.  
 - Daily snapshot backups are recommended; disk encryption is often used (see Security sections) to protect data at rest.
 
 ---
@@ -194,27 +194,27 @@ The software is deployed on a dedicated server for each vessel (offline-ready) a
 
 ```mermaid
 flowchart TB
-    subgraph Vessel Deployment
-    V1[Local Server<br>Linux/Windows]
+    subgraph Vessel_Deployment
+    V1[Local Server Linux/Windows]
     V2[NGINX + PM2]
     V3[Nest.js]
-    V4[MySQL (Encrypted Disk)]
+    V4[MySQL Encrypted Disk]
     V2 --> V3
     V3 --> V4
     end
 
-    subgraph Office Deployment
-    O1[Office VM<br>(16GB RAM,4 cores)]
+    subgraph Office_Deployment
+    O1[Office VM 16GB RAM 4 cores]
     O2[NGINX + PM2]
     O3[Nest.js]
-    O4[MySQL (Encrypted Disk)]
+    O4[MySQL Encrypted Disk]
     end
 
     V2 --Local Fallback--> V1
     O2 --> O3
     O3 --> O4
-
-    V3 ==Sync== O3
+    
+    V3 -- Sync --> O3
 ```
 
 ### CI/CD Processes
