@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Safe Lanes Documentation Portal</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: false });</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-color: #002b45;
+      --accent-color: #00acc1;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+  <header class="bg-[var(--primary-color)] text-white p-4 flex items-center justify-between shadow-md">
+    <div class="flex items-center space-x-4">
+      <img src="logo.png" alt="TrueReach AI Logo" class="h-10 w-auto">
+      <div>
+        <h1 class="text-xl font-bold">TrueReach AI</h1>
+        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes</p>
+      </div>
+    </div>
+    <div class="text-sm text-[var(--accent-color)]">https://safe-lanes.com</div>
+  </header>
+
+  <div class="flex h-[calc(100vh-4rem)]">
+    <aside class="w-72 bg-white shadow-md p-4 overflow-y-auto">
+      <h2 class="text-2xl font-bold mb-4 text-[var(--primary-color)]">📁 Project Docs</h2>
+      <div class="space-y-6">
+
+        <!-- 1. Business and Functional Overview -->
+        <div>
+          <h3 class="text-lg font-semibold mb-2">1. Business and Functional Overview</h3>
+          <ul class="space-y-1">
+            <li><button onclick="loadMarkdown('Business Requirements and Technical SOW.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Business Requirements and Technical SOW</button></li>
+            <li><button onclick="loadMarkdown('L1-Overview.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Overview</button></li>
+            <li><button onclick="loadMarkdown('L1-Functional Requirements Specification_High Level.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Functional Requirements Specification</button></li>
+            <li><button onclick="loadMarkdown('L1-Workflow Document.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Workflow Document</button></li>
+            <li><button onclick="loadMarkdown('L1-Screen Inventory.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Screen Inventory</button></li>
+          </ul>
+        </div>
+
+        <!-- 2. Architectural and High-Level Design -->
+        <div>
+          <h3 class="text-lg font-semibold mb-2">2. Architectural and High-Level Design</h3>
+          <ul class="space-y-1">
+            <li><button onclick="loadMarkdown('L1-High-Level Design Document.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - High-Level Design Document</button></li>
+            <li><button onclick="loadMarkdown('L1-Key Technical Decisions.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Key Technical Decisions</button></li>
+            <li><button onclick="loadMarkdown('L1-Technology Stack Documentation.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Technology Stack Documentation</button></li>
+            <li><button onclick="loadMarkdown('L1-Non-Functional Requirements Specification Document.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Non-Functional Requirements Specification</button></li>
+          </ul>
+        </div>
+
+        <!-- 3. Low-Level Design (System-wide) -->
+        <div>
+          <h3 class="text-lg font-semibold mb-2">3. Low-Level Design (System-wide)</h3>
+          <ul class="space-y-1">
+            <li><button onclick="loadMarkdown('L2-Low Level Design_Inter Component Interaction.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L2 - Inter Component Interaction</button></li>
+            <li><button onclick="loadMarkdown('L2-Low Level Design_Integration with Third-Party Services.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L2 - Integration with Third-Party Services</button></li>
+          </ul>
+        </div>
+
+        <!-- 4. Component-Level Design and Documentation -->
+        <div>
+          <h3 class="text-lg font-semibold mb-2">4. Component-Level Design and Documentation</h3>
+          <div class="ml-2">
+            <h4 class="text-md font-medium mb-1">Back-End</h4>
+            <ul class="space-y-1">
+              <li><button onclick="loadMarkdown('L3-Functional Requirements Specification for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Functional Requirements</button></li>
+              <li><button onclick="loadMarkdown('L3-Non-Functional Requirements Specification for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Non-Functional Requirements</button></li>
+              <li><button onclick="loadMarkdown('L3-Component Specific Key Decisions for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Key Decisions</button></li>
+              <li><button onclick="loadMarkdown('L3-Component-Specific Low-Level Design Document for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Low-Level Design Document</button></li>
+              <li><button onclick="loadMarkdown('L3-Component Implementation Backlog for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Implementation Backlog</button></li>
+              <li><button onclick="loadMarkdown('L3-Technology Stack Documentation for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Technology Stack</button></li>
+              <li><button onclick="loadMarkdown('L3-Workflow Details for RestHours Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Workflow Details</button></li>
+              <li><button onclick="loadMarkdown('L3-Low Level Design-Configuration Manual for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Configuration Manual</button></li>
+            </ul>
+
+            <h4 class="text-md font-medium mt-4 mb-1">Front-End</h4>
+            <ul class="space-y-1">
+              <li><button onclick="loadMarkdown('L3-Functional Requirements Specification for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Functional Requirements</button></li>
+              <li><button onclick="loadMarkdown('L3-Non-Functional Requirements Specification for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Non-Functional Requirements</button></li>
+              <li><button onclick="loadMarkdown('L3-Component Specific Key Decisions for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Key Decisions</button></li>
+              <li><button onclick="loadMarkdown('L3-Component-Specific Low-Level Design Document for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Low-Level Design Document</button></li>
+              <li><button onclick="loadMarkdown('L3-Component Implementation Backlog for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Implementation Backlog</button></li>
+              <li><button onclick="loadMarkdown('L3-Technology Stack Documentation for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Technology Stack</button></li>
+              <li><button onclick="loadMarkdown('L3-Workflow Details for Rest Hours Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Workflow Details</button></li>
+              <li><button onclick="loadMarkdown('L3-Low Level Design-Configuration Manual for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Configuration Manual</button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 p-6 overflow-y-auto">
+      <div id="content" class="prose lg:prose-xl max-w-none"></div>
+    </main>
+  </div>
+
+  <footer class="bg-[var(--primary-color)] text-white text-sm text-center p-3">
+    &copy; 2025 TrueReach AI. Prepared for Safe Lanes. Visit <a href="https://safe-lanes.com" class="text-[var(--accent-color)] underline">safe-lanes.com</a>
+  </footer>
+
+  <script>
+    async function loadMarkdown(filePath) {
+      const response = await fetch(filePath);
+      const text = await response.text();
+      const html = marked.parse(text);
+      document.getElementById("content").innerHTML = html;
+      renderMermaidDiagrams();
+    }
+
+    function renderMermaidDiagrams() {
+      const mermaidBlocks = document.querySelectorAll('code.language-mermaid');
+      mermaidBlocks.forEach((block) => {
+        const parent = block.parentElement;
+        const code = block.textContent;
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = code;
+        parent.replaceWith(mermaidDiv);
+      });
+      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+    }
+  </script>
+</body>
+</html>
