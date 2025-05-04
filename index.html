@@ -39,7 +39,7 @@
       <img src="logo.png" alt="TrueReach AI Logo" class="h-10 w-auto">
       <div>
         <h1 class="text-xl font-bold">TrueReach AI</h1>
-        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes V6</p>
+        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes V7</p>
       </div>
     </div>
   </header>
@@ -129,22 +129,55 @@
         if (!response.ok) throw new Error(`Failed to load ${filePath}: ${response.status}`);
         const text = await response.text();
         
-        // Fix specific syntax issues in Mermaid diagrams
+        // Fix specific syntax issues in Mermaid diagrams based on their type
         let fixedText = text.replace(/```mermaid\s+([\s\S]+?)```/g, function(match, diagram) {
-          // Fix common syntax issues in the diagrams
-          let fixed = diagram
-            // Replace <br/> with line breaks that Mermaid can handle
-            .replace(/<br\s*\/?>/g, '\\n')
+          let diagramType = "unknown";
+          let trimmed = diagram.trim();
+          
+          // Determine diagram type
+          if (trimmed.startsWith("flowchart") || trimmed.startsWith("graph")) {
+            diagramType = "flowchart";
+          } else if (trimmed.startsWith("sequenceDiagram")) {
+            diagramType = "sequence";
+          } else if (trimmed.startsWith("classDiagram")) {
+            diagramType = "class";
+          } else if (trimmed.startsWith("erDiagram")) {
+            diagramType = "er";
+          }
+          
+          let fixed = trimmed;
+          
+          // Apply fixes specific to each diagram type
+          if (diagramType === "flowchart") {
+            // For flowcharts, simplify node labels to avoid syntax issues
+            fixed = fixed
+              .replace(/<br\s*\/?>/g, '\\n')
+              // Simplify node labels by removing complex content
+              .replace(/\[([^\]]*?)\/([^\]]*?)\]/g, '[$1_$2]') // Replace / with _
+              .replace(/\[([^\]]*?)\(([^\)]*?)\)([^\]]*?)\]/g, '[$1_$2_$3]') // Replace () with _
+              .replace(/\{([^\}]*?)\(([^\)]*?)\)([^\}]*?)\}/g, '{$1_$2_$3}') // Replace () with _
+              .replace(/"([^"]*)"/g, '_$1_') // Replace "text" with _text_
+              .replace(/\\n /g, '\\n'); // Fix newlines with spaces
+          } 
+          else if (diagramType === "class") {
+            // For class diagrams, handle method parameters carefully
+            fixed = fixed
+              .replace(/<br\s*\/?>/g, '\\n')
+              // Protect method signatures by not altering them
+              .replace(/\+([a-zA-Z0-9_]+)\(([^)]*)\)/g, '+$1___PARAM___$2___CLOSE___');
             
-            // Fix node labels with parentheses by escaping them
-            .replace(/\[(.*?)\((.*?)\)(.*?)\]/g, '[$1"$2"$3]')
-            .replace(/\{(.*?)\((.*?)\)(.*?)\}/g, '{$1"$2"$3}')
-            
-            // Fix specific diagram patterns causing errors (from error log)
-            .replace(/A\[Vessel Devices\\n \(Crew\/Admin UI\)\]/g, 'A["Vessel Devices\\n Crew Admin UI"]')
-            .replace(/C\{Local DB \\n\(MySQL\)\}/g, 'C["Local DB\\nMySQL"]')
-            .replace(/Conflict Detection\\n\(Compliance Data\?\)/g, 'Conflict_Detection["Compliance Data"]')
-            .replace(/MySQL \(Encrypted Disk\)/g, 'MySQL_Encrypted_Disk');
+            // After protecting method signatures, apply general fixes
+            fixed = fixed
+              .replace(/\(([^)]*)\)/g, '_$1_') // Replace general parentheses
+              .replace(/___PARAM___/g, '(') // Restore method params opening
+              .replace(/___CLOSE___/g, ')'); // Restore method params closing
+          }
+          else if (diagramType === "sequence") {
+            // Sequence diagrams generally need fewer fixes
+            fixed = fixed
+              .replace(/<br\s*\/?>/g, '\\n')
+              .replace(/\(([^)]*)\)/g, '"$1"'); // Replace () with quotes for better compatibility
+          }
           
           return '```mermaid\n' + fixed + '\n```';
         });
@@ -167,6 +200,7 @@
             content.startsWith('flowchart') || 
             content.startsWith('sequenceDiagram') || 
             content.startsWith('classDiagram') ||
+            content.startsWith('erDiagram') ||
             content.startsWith('graph')
           ) {
             // Replace the code block with a mermaid div
@@ -182,19 +216,27 @@
           }
         });
         
-        // Initialize Mermaid
+        // Initialize Mermaid with type-specific settings
         setTimeout(() => {
           mermaid.initialize({
             startOnLoad: false,
             securityLevel: 'loose',
             flowchart: {
               useMaxWidth: true,
-              htmlLabels: false
+              htmlLabels: false,
+              curve: 'linear'
             },
             sequence: {
+              useMaxWidth: true,
+              showSequenceNumbers: false
+            },
+            class: {
               useMaxWidth: true
             },
-            theme: 'neutral'
+            er: {
+              useMaxWidth: true
+            },
+            theme: 'default'
           });
           
           try {
