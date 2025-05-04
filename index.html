@@ -13,6 +13,18 @@
       --primary-color: #002b45;
       --accent-color: #00acc1;
     }
+    /* Add these styles to properly format Markdown content */
+    .prose h1 { font-size: 2rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 1rem; }
+    .prose h2 { font-size: 1.75rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+    .prose h3 { font-size: 1.5rem; font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.75rem; }
+    .prose p { margin-bottom: 1rem; }
+    .prose ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; }
+    .prose ol { list-style-type: decimal; margin-left: 1.5rem; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.25rem; }
+    .prose strong { font-weight: 700; }
+    .prose em { font-style: italic; }
+    .prose code { background-color: #f0f0f0; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+    .prose blockquote { border-left: 4px solid #ddd; padding-left: 1rem; margin-left: 0; margin-right: 0; font-style: italic; }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
@@ -24,7 +36,6 @@
         <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes</p>
       </div>
     </div>
-    <div class="text-sm text-[var(--accent-color)]">https://safe-lanes.com</div>
   </header>
 
   <div class="flex h-[calc(100vh-4rem)]">
@@ -102,26 +113,33 @@
   </div>
 
   <footer class="bg-[var(--primary-color)] text-white text-sm text-center p-3">
-    &copy; 2025 TrueReach AI. Prepared for Safe Lanes. Visit <a href="https://safe-lanes.com" class="text-[var(--accent-color)] underline">safe-lanes.com</a>
+    &copy; 2025 TrueReach AI. Prepared for Safe Lanes.
   </footer>
 
   <script>
     async function loadMarkdown(filePath) {
-      const response = await fetch(filePath);
-      const text = await response.text();
-      
-      // Configure marked to properly handle code blocks
-      marked.setOptions({
-        highlight: function(code, lang) {
-          return code;
-        }
-      });
-      
-      const html = marked.parse(text);
-      document.getElementById("content").innerHTML = html;
-      
-      // Make sure this runs after content is loaded
-      setTimeout(renderMermaidDiagrams, 100);
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`Failed to load ${filePath}: ${response.status}`);
+        const text = await response.text();
+        
+        // Configure marked for proper rendering
+        marked.use({
+          gfm: true,
+          breaks: true,
+          headerIds: true,
+          mangle: false
+        });
+        
+        const html = marked.parse(text);
+        document.getElementById("content").innerHTML = html;
+        
+        // Process mermaid diagrams after a slight delay
+        setTimeout(renderMermaidDiagrams, 100);
+      } catch (error) {
+        console.error(error);
+        document.getElementById("content").innerHTML = `<div class="text-red-600">Error loading document: ${error.message}</div>`;
+      }
     }
 
     function renderMermaidDiagrams() {
