@@ -33,7 +33,7 @@
       <img src="logo.png" alt="TrueReach AI Logo" class="h-10 w-auto">
       <div>
         <h1 class="text-xl font-bold">TrueReach AI</h1>
-        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes</p>
+        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes V1</p>
       </div>
     </div>
   </header>
@@ -123,15 +123,25 @@
         if (!response.ok) throw new Error(`Failed to load ${filePath}: ${response.status}`);
         const text = await response.text();
         
+        // Clean up Mermaid diagrams in the Markdown before parsing
+        let cleanedText = text.replace(/```mermaid\s+([\s\S]+?)```/g, function(match, diagram) {
+          // Replace <br> tags with spaces
+          let cleaned = diagram
+            .replace(/<br\s*\/?>/g, ' ')
+            .replace(/\[([^\]]+)\]/g, function(match, content) {
+              // Simplify node labels to avoid parsing issues
+              return '[' + content.replace(/[^\w\s-]/g, ' ') + ']';
+            });
+          return '```mermaid\n' + cleaned + '\n```';
+        });
+        
         // Configure marked for proper rendering
         marked.use({
           gfm: true,
-          breaks: true,
-          headerIds: true,
-          mangle: false
+          breaks: true
         });
         
-        const html = marked.parse(text);
+        const html = marked.parse(cleanedText);
         document.getElementById("content").innerHTML = html;
         
         // Process mermaid diagrams after a slight delay
@@ -143,36 +153,41 @@
     }
 
     function renderMermaidDiagrams() {
-      // Configure Mermaid to handle HTML tags
+      // Configure Mermaid with safer options
       mermaid.initialize({
         startOnLoad: false,
-        securityLevel: 'loose', // This allows HTML tags in the diagrams
+        securityLevel: 'loose',
         flowchart: {
-          htmlLabels: true
+          htmlLabels: true,
+          useMaxWidth: true
         }
       });
       
-      // Look for Mermaid syntax in the document
-      const content = document.getElementById("content");
-      const codeBlocks = content.querySelectorAll('pre code');
-      
-      codeBlocks.forEach((block) => {
-        // Check for various Mermaid diagram types
-        if (block.textContent.trim().startsWith('flowchart') || 
-            block.textContent.trim().startsWith('sequenceDiagram') ||
-            block.textContent.trim().startsWith('graph')) {
-          
-          const parent = block.parentElement;
-          const mermaidDiv = document.createElement('div');
-          mermaidDiv.className = 'mermaid';
-          // Replace <br> tags with \n for Mermaid
-          mermaidDiv.textContent = block.textContent.replace(/<br>/g, '\\n').replace(/<br\/>/g, '\\n');
-          parent.replaceWith(mermaidDiv);
-        }
-      });
-      
-      // Re-initialize mermaid with our config
-      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      try {
+        // Look for Mermaid syntax in the document
+        const content = document.getElementById("content");
+        const codeBlocks = content.querySelectorAll('pre code');
+        
+        codeBlocks.forEach((block) => {
+          const codeText = block.textContent.trim();
+          // Check for various Mermaid diagram types
+          if (codeText.startsWith('flowchart') || 
+              codeText.startsWith('sequenceDiagram') ||
+              codeText.startsWith('graph')) {
+            
+            const parent = block.parentElement;
+            const mermaidDiv = document.createElement('div');
+            mermaidDiv.className = 'mermaid';
+            mermaidDiv.textContent = codeText;
+            parent.replaceWith(mermaidDiv);
+          }
+        });
+        
+        // Re-initialize mermaid with our config
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      } catch (error) {
+        console.error("Error rendering Mermaid diagrams:", error);
+      }
     }
   </script>
 </body>
