@@ -285,7 +285,7 @@ Below is a concise summary of key endpoints. All requests require valid JWT (onl
 
 ```mermaid
 flowchart LR
-    A[User Device<br>(JWT or Session Key)] --> B[Nest.js AuthService]
+    A[User Device (JWT or Session Key)] --> B[Nest.js AuthService]
     B -->|Check Validity| DB[(MySQL)]
     B --> C[End Resource Access]
 ```
