@@ -25,6 +25,12 @@
     .prose em { font-style: italic; }
     .prose code { background-color: #f0f0f0; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
     .prose blockquote { border-left: 4px solid #ddd; padding-left: 1rem; margin-left: 0; margin-right: 0; font-style: italic; }
+    .mermaid-container {
+      margin: 1.5rem 0;
+    }
+    .diagram-content {
+      min-height: 100px;
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
@@ -33,7 +39,7 @@
       <img src="logo.png" alt="TrueReach AI Logo" class="h-10 w-auto">
       <div>
         <h1 class="text-xl font-bold">TrueReach AI</h1>
-        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes V2</p>
+        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes V3</p>
       </div>
     </div>
   </header>
@@ -123,87 +129,99 @@
         if (!response.ok) throw new Error(`Failed to load ${filePath}: ${response.status}`);
         const text = await response.text();
         
-        // Clean up Mermaid diagrams in the Markdown before parsing
-        let cleanedText = text.replace(/```mermaid\s+([\s\S]+?)```/g, function(match, diagram) {
-          // Replace problematic characters and structures in diagrams
-          let cleaned = diagram
-            // Replace HTML tags with spaces
-            .replace(/<br\s*\/?>/g, ' ')
-            // Handle parentheses in node labels - escape or remove them
-            .replace(/\{([^}]*)\(([^)]*)\)([^}]*)\}/g, '{$1_$2_$3}')
-            .replace(/\[([^]]*)\(([^)]*)\)([^]]*)\]/g, '[$1_$2_$3]')
-            .replace(/\(([^)]*)\(([^)]*)\)([^)]*)\)/g, '($1_$2_$3)');
+        // Process Markdown before rendering
+        let processedText = text;
+        
+        // Extract and handle mermaid blocks separately
+        const mermaidBlocks = [];
+        processedText = processedText.replace(/```mermaid\s+([\s\S]+?)```/g, function(match, diagram, index) {
+          // Save the original diagram code
+          const placeholder = `MERMAID_DIAGRAM_${mermaidBlocks.length}`;
+          mermaidBlocks.push(diagram.trim());
+          return placeholder;
+        });
+        
+        // Render the Markdown
+        const html = marked.parse(processedText);
+        
+        // Replace placeholders with actual diagram divs or fallback content
+        let finalHtml = html;
+        mermaidBlocks.forEach((diagram, index) => {
+          const placeholder = `MERMAID_DIAGRAM_${index}`;
           
-          return '```mermaid\n' + cleaned + '\n```';
+          // Create a fallback display that always shows 
+          const diagramHtml = `
+            <div class="mermaid-container border rounded overflow-hidden">
+              <div class="bg-gray-100 px-4 py-2 border-b flex justify-between items-center">
+                <div class="font-medium">Diagram</div>
+                <button class="text-blue-500 hover:text-blue-700 text-sm toggle-diagram" data-index="${index}">
+                  Show as code
+                </button>
+              </div>
+              <div class="diagram-content p-4">
+                <div class="mermaid" id="mermaid-${index}">${diagram}</div>
+                <pre class="hidden bg-gray-100 p-4 rounded mt-2 code-view" id="code-${index}"><code>${diagram}</code></pre>
+              </div>
+            </div>
+          `;
+          
+          finalHtml = finalHtml.replace(placeholder, diagramHtml);
         });
         
-        // Configure marked for proper rendering
-        marked.use({
-          gfm: true,
-          breaks: true
+        document.getElementById("content").innerHTML = finalHtml;
+        
+        // Set up toggle buttons
+        document.querySelectorAll('.toggle-diagram').forEach(button => {
+          button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            const codeView = document.getElementById(`code-${index}`);
+            const mermaidView = document.getElementById(`mermaid-${index}`);
+            
+            if (codeView.classList.contains('hidden')) {
+              codeView.classList.remove('hidden');
+              mermaidView.classList.add('hidden');
+              this.textContent = 'Show as diagram';
+            } else {
+              codeView.classList.add('hidden');
+              mermaidView.classList.remove('hidden');
+              this.textContent = 'Show as code';
+            }
+          });
         });
         
-        const html = marked.parse(cleanedText);
-        document.getElementById("content").innerHTML = html;
+        // Initialize Mermaid diagrams
+        setTimeout(() => {
+          try {
+            mermaid.initialize({
+              startOnLoad: true,
+              securityLevel: 'loose',
+              flowchart: { htmlLabels: true, useMaxWidth: true },
+              theme: 'neutral',
+              logLevel: 'error',
+              fontFamily: 'sans-serif'
+            });
+            mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+          } catch (error) {
+            console.error('Mermaid initialization error:', error);
+            // When diagrams fail, show the code view automatically
+            document.querySelectorAll('.mermaid').forEach(div => {
+              const container = div.closest('.mermaid-container');
+              if (container) {
+                const codeView = container.querySelector('.code-view');
+                const toggleBtn = container.querySelector('.toggle-diagram');
+                if (codeView && toggleBtn) {
+                  div.classList.add('hidden');
+                  codeView.classList.remove('hidden');
+                  toggleBtn.textContent = 'Show as diagram';
+                }
+              }
+            });
+          }
+        }, 100);
         
-        // Process mermaid diagrams after a slight delay
-        setTimeout(renderMermaidDiagrams, 100);
       } catch (error) {
         console.error(error);
         document.getElementById("content").innerHTML = `<div class="text-red-600">Error loading document: ${error.message}</div>`;
-      }
-    }
-
-    function renderMermaidDiagrams() {
-      // Configure Mermaid with safer options
-      mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: 'loose',
-        flowchart: {
-          htmlLabels: true,
-          useMaxWidth: true
-        },
-        // Add error handling to show raw code when diagrams fail
-        parseError: function(err, hash) {
-          console.warn('Mermaid parse error:', err);
-          return;
-        }
-      });
-      
-      try {
-        // Look for Mermaid syntax in the document
-        const content = document.getElementById("content");
-        const codeBlocks = content.querySelectorAll('pre code');
-        
-        codeBlocks.forEach((block) => {
-          const codeText = block.textContent.trim();
-          // Check for various Mermaid diagram types
-          if (codeText.startsWith('flowchart') || 
-              codeText.startsWith('sequenceDiagram') ||
-              codeText.startsWith('graph')) {
-            
-            const parent = block.parentElement;
-            const mermaidDiv = document.createElement('div');
-            mermaidDiv.className = 'mermaid';
-            mermaidDiv.textContent = codeText;
-            
-            // Create a fallback display in case the diagram fails to render
-            const fallbackDiv = document.createElement('div');
-            fallbackDiv.className = 'hidden mt-4 p-4 bg-gray-100 rounded';
-            fallbackDiv.textContent = codeText;
-            
-            const container = document.createElement('div');
-            container.appendChild(mermaidDiv);
-            container.appendChild(fallbackDiv);
-            
-            parent.replaceWith(container);
-          }
-        });
-        
-        // Re-initialize mermaid with our config
-        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
-      } catch (error) {
-        console.error("Error rendering Mermaid diagrams:", error);
       }
     }
   </script>
