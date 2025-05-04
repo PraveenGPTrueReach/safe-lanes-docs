@@ -39,7 +39,7 @@
       <img src="logo.png" alt="TrueReach AI Logo" class="h-10 w-auto">
       <div>
         <h1 class="text-xl font-bold">TrueReach AI</h1>
-        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes V4</p>
+        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes V5</p>
       </div>
     </div>
   </header>
@@ -129,77 +129,54 @@
         if (!response.ok) throw new Error(`Failed to load ${filePath}: ${response.status}`);
         const text = await response.text();
         
-        // Replace Mermaid blocks with specially formatted divs
-        let processedText = text.replace(/```mermaid\s+([\s\S]+?)```/g, function(match, diagram) {
-          // Create a base64 encoded version of the diagram code for Mermaid Live Editor
-          const encodedDiagram = btoa(unescape(encodeURIComponent(diagram.trim())));
-          const mermaidLiveEditorURL = `https://mermaid.live/edit#base64:${encodedDiagram}`;
+        // Fix specific syntax issues in Mermaid diagrams
+        let fixedText = text.replace(/```mermaid\s+([\s\S]+?)```/g, function(match, diagram) {
+          // Fix common syntax issues in the diagrams
+          let fixed = diagram
+            // Replace <br/> with line breaks that Mermaid can handle
+            .replace(/<br\s*\/?>/g, '\\n')
+            
+            // Fix node labels with parentheses by escaping them
+            .replace(/\[(.*?)\((.*?)\)(.*?)\]/g, '[$1"$2"$3]')
+            .replace(/\{(.*?)\((.*?)\)(.*?)\}/g, '{$1"$2"$3}')
+            
+            // Fix specific diagram patterns causing errors (from error log)
+            .replace(/A\[Vessel Devices\\n \(Crew\/Admin UI\)\]/g, 'A["Vessel Devices\\n Crew Admin UI"]')
+            .replace(/C\{Local DB \\n\(MySQL\)\}/g, 'C["Local DB\\nMySQL"]')
+            .replace(/Conflict Detection\\n\(Compliance Data\?\)/g, 'Conflict_Detection["Compliance Data"]')
+            .replace(/MySQL \(Encrypted Disk\)/g, 'MySQL_Encrypted_Disk');
           
-          return `<div class="diagram-placeholder">
-            <h4>Diagram</h4>
-            <p class="diagram-notice">Interactive diagram rendering is not available in this view.</p>
-            <div class="diagram-actions">
-              <a href="${mermaidLiveEditorURL}" target="_blank" class="view-in-editor">View & Edit in Mermaid Live Editor</a>
-            </div>
-            <pre><code class="mermaid-code">${diagram.trim()}</code></pre>
-          </div>`;
+          return '```mermaid\n' + fixed + '\n```';
         });
         
-        // Configure marked
+        // Configure marked for proper rendering
         marked.use({
           gfm: true,
-          breaks: true,
-          headerIds: true
+          breaks: true
         });
         
-        const html = marked.parse(processedText);
+        const html = marked.parse(fixedText);
         document.getElementById("content").innerHTML = html;
         
-        // Add styling to diagram placeholders
-        const style = document.createElement('style');
-        style.textContent = `
-          .diagram-placeholder {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 16px;
-            margin: 20px 0;
-            background-color: #f8f9fa;
+        // Process mermaid diagrams after content is loaded
+        setTimeout(() => {
+          mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: 'loose',
+            flowchart: { 
+              htmlLabels: false,  // Disable HTML labels to avoid issues
+              useMaxWidth: true,
+              curve: 'basis'  // Use smoother curves
+            },
+            theme: 'neutral'
+          });
+          
+          try {
+            mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+          } catch (error) {
+            console.error("Error initializing Mermaid:", error);
           }
-          .diagram-placeholder h4 {
-            margin-top: 0;
-            font-size: 1.2rem;
-            color: #333;
-          }
-          .diagram-notice {
-            color: #666;
-            font-style: italic;
-            margin-bottom: 16px;
-          }
-          .diagram-actions {
-            margin-bottom: 16px;
-          }
-          .view-in-editor {
-            display: inline-block;
-            background-color: #0078d7;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-          }
-          .view-in-editor:hover {
-            background-color: #005a9e;
-          }
-          .mermaid-code {
-            background-color: #f5f5f5;
-            padding: 12px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            overflow-x: auto;
-            font-family: monospace;
-          }
-        `;
-        document.head.appendChild(style);
+        }, 100);
         
       } catch (error) {
         console.error(error);
