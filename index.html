@@ -33,7 +33,7 @@
       <img src="logo.png" alt="TrueReach AI Logo" class="h-10 w-auto">
       <div>
         <h1 class="text-xl font-bold">TrueReach AI</h1>
-        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes V1</p>
+        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes V2</p>
       </div>
     </div>
   </header>
@@ -125,13 +125,15 @@
         
         // Clean up Mermaid diagrams in the Markdown before parsing
         let cleanedText = text.replace(/```mermaid\s+([\s\S]+?)```/g, function(match, diagram) {
-          // Replace <br> tags with spaces
+          // Replace problematic characters and structures in diagrams
           let cleaned = diagram
+            // Replace HTML tags with spaces
             .replace(/<br\s*\/?>/g, ' ')
-            .replace(/\[([^\]]+)\]/g, function(match, content) {
-              // Simplify node labels to avoid parsing issues
-              return '[' + content.replace(/[^\w\s-]/g, ' ') + ']';
-            });
+            // Handle parentheses in node labels - escape or remove them
+            .replace(/\{([^}]*)\(([^)]*)\)([^}]*)\}/g, '{$1_$2_$3}')
+            .replace(/\[([^]]*)\(([^)]*)\)([^]]*)\]/g, '[$1_$2_$3]')
+            .replace(/\(([^)]*)\(([^)]*)\)([^)]*)\)/g, '($1_$2_$3)');
+          
           return '```mermaid\n' + cleaned + '\n```';
         });
         
@@ -160,6 +162,11 @@
         flowchart: {
           htmlLabels: true,
           useMaxWidth: true
+        },
+        // Add error handling to show raw code when diagrams fail
+        parseError: function(err, hash) {
+          console.warn('Mermaid parse error:', err);
+          return;
         }
       });
       
@@ -179,7 +186,17 @@
             const mermaidDiv = document.createElement('div');
             mermaidDiv.className = 'mermaid';
             mermaidDiv.textContent = codeText;
-            parent.replaceWith(mermaidDiv);
+            
+            // Create a fallback display in case the diagram fails to render
+            const fallbackDiv = document.createElement('div');
+            fallbackDiv.className = 'hidden mt-4 p-4 bg-gray-100 rounded';
+            fallbackDiv.textContent = codeText;
+            
+            const container = document.createElement('div');
+            container.appendChild(mermaidDiv);
+            container.appendChild(fallbackDiv);
+            
+            parent.replaceWith(container);
           }
         });
         
