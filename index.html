@@ -143,12 +143,21 @@
     }
 
     function renderMermaidDiagrams() {
+      // Configure Mermaid to handle HTML tags
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: 'loose', // This allows HTML tags in the diagrams
+        flowchart: {
+          htmlLabels: true
+        }
+      });
+      
       // Look for Mermaid syntax in the document
       const content = document.getElementById("content");
       const codeBlocks = content.querySelectorAll('pre code');
       
       codeBlocks.forEach((block) => {
-        // Check if this is a mermaid block - look for flowchart or other mermaid keywords
+        // Check for various Mermaid diagram types
         if (block.textContent.trim().startsWith('flowchart') || 
             block.textContent.trim().startsWith('sequenceDiagram') ||
             block.textContent.trim().startsWith('graph')) {
@@ -156,12 +165,13 @@
           const parent = block.parentElement;
           const mermaidDiv = document.createElement('div');
           mermaidDiv.className = 'mermaid';
-          mermaidDiv.textContent = block.textContent;
+          // Replace <br> tags with \n for Mermaid
+          mermaidDiv.textContent = block.textContent.replace(/<br>/g, '\\n').replace(/<br\/>/g, '\\n');
           parent.replaceWith(mermaidDiv);
         }
       });
       
-      // Re-initialize mermaid
+      // Re-initialize mermaid with our config
       mermaid.init(undefined, document.querySelectorAll('.mermaid'));
     }
   </script>
