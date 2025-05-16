@@ -36,10 +36,10 @@
 <body class="bg-gray-50 text-gray-800 font-sans">
   <header class="bg-[var(--primary-color)] text-white p-4 flex items-center justify-between shadow-md">
     <div class="flex items-center space-x-4">
-      <img src="logo.png" alt="TrueReach AI Logo" class="h-10 w-auto">
+      <img src="logo.png" alt="Solarium Logo" class="h-10 w-36 object-contain">
       <div>
         <h1 class="text-xl font-bold">TrueReach AI</h1>
-        <p class="text-sm text-[var(--accent-color)]">Documentation for Safe Lanes</p>
+        <p class="text-sm text-[var(--accent-color)]">Documentation for Solarium</p>
       </div>
     </div>
   </header>
@@ -48,65 +48,81 @@
     <aside class="w-72 bg-white shadow-md p-4 overflow-y-auto">
       <h2 class="text-2xl font-bold mb-4 text-[var(--primary-color)]">📁 Project Docs</h2>
       <div class="space-y-6">
-
-        <!-- 1. Business and Functional Overview -->
+        <!-- L1 Documents -->
         <div>
-          <h3 class="text-lg font-semibold mb-2">1. Business and Functional Overview</h3>
+          <h3 class="text-lg font-semibold mb-2">L1 Documents</h3>
           <ul class="space-y-1">
-            <li><button onclick="loadMarkdown('Business Requirements and Technical SOW.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Business Requirements and Technical SOW</button></li>
-            <li><button onclick="loadMarkdown('L1-Overview.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Overview</button></li>
-            <li><button onclick="loadMarkdown('L1-Functional Requirements Specification_High Level.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Functional Requirements Specification</button></li>
-            <li><button onclick="loadMarkdown('L1-Workflow Document.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Workflow Document</button></li>
-            <li><button onclick="loadMarkdown('L1-Screen Inventory.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Screen Inventory</button></li>
+            <li><button onclick="loadMarkdown('SOW.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Statement of Work</button></li>
+            <li><button onclick="loadMarkdown('L1-OVERVIEW.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Solution Overview</button></li>
+            <li><button onclick="loadMarkdown('L1-FRS.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Functional Requirements Specification</button></li>
+            <li><button onclick="loadMarkdown('L1-WF.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Workflow Document</button></li>
+            <li><button onclick="loadMarkdown('L1-SI.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Screen Inventory</button></li>
+            <li><button onclick="loadMarkdown('L1-HLD.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">High-Level Design</button></li>
+            <li><button onclick="loadMarkdown('L1-KD.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Key Technical Decisions</button></li>
+            <li><button onclick="loadMarkdown('L1-TSD.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Technology Stack Documentation</button></li>
+            <li><button onclick="loadMarkdown('L1-NFRS.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Non-Functional Requirements Specification</button></li>
+            <li><button onclick="loadMarkdown('L1-RAD.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Risk Assessment Document</button></li>
           </ul>
         </div>
-
-        <!-- 2. Architectural and High-Level Design -->
+        <!-- L2 Documents -->
         <div>
-          <h3 class="text-lg font-semibold mb-2">2. Architectural and High-Level Design</h3>
+          <h3 class="text-lg font-semibold mb-2">L2 Documents</h3>
           <ul class="space-y-1">
-            <li><button onclick="loadMarkdown('L1-High-Level Design Document.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - High-Level Design Document</button></li>
-            <li><button onclick="loadMarkdown('L1-Key Technical Decisions.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Key Technical Decisions</button></li>
-            <li><button onclick="loadMarkdown('L1-Technology Stack Documentation.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Technology Stack Documentation</button></li>
-            <li><button onclick="loadMarkdown('L1-Non-Functional Requirements Specification Document.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L1 - Non-Functional Requirements Specification</button></li>
+            <li><button onclick="loadMarkdown('L2-LLD-IC.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Inter-Component Interaction</button></li>
+            <li><button onclick="loadMarkdown('L2-LLD-INTG3P.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Integration with Third-Party Services</button></li>
           </ul>
         </div>
-
-        <!-- 3. Low-Level Design (System-wide) -->
+        <!-- L3 Documents -->
         <div>
-          <h3 class="text-lg font-semibold mb-2">3. Low-Level Design (System-wide)</h3>
-          <ul class="space-y-1">
-            <li><button onclick="loadMarkdown('L2-Low Level Design_Inter Component Interaction.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L2 - Inter Component Interaction</button></li>
-            <li><button onclick="loadMarkdown('L2-Low Level Design_Integration with Third-Party Services.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">L2 - Integration with Third-Party Services</button></li>
-          </ul>
-        </div>
-
-        <!-- 4. Component-Level Design and Documentation -->
-        <div>
-          <h3 class="text-lg font-semibold mb-2">4. Component-Level Design and Documentation</h3>
+          <h3 class="text-lg font-semibold mb-2">L3 Documents</h3>
           <div class="ml-2">
-            <h4 class="text-md font-medium mb-1">Back-End</h4>
+            <h4 class="text-md font-medium mb-1">Backend</h4>
             <ul class="space-y-1">
-              <li><button onclick="loadMarkdown('L3-Functional Requirements Specification for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Functional Requirements</button></li>
-              <li><button onclick="loadMarkdown('L3-Non-Functional Requirements Specification for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Non-Functional Requirements</button></li>
-              <li><button onclick="loadMarkdown('L3-Component Specific Key Decisions for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Key Decisions</button></li>
-              <li><button onclick="loadMarkdown('L3-Component-Specific Low-Level Design Document for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Low-Level Design Document</button></li>
-              <li><button onclick="loadMarkdown('L3-Component Implementation Backlog for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Implementation Backlog</button></li>
-              <li><button onclick="loadMarkdown('L3-Technology Stack Documentation for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Technology Stack</button></li>
-              <li><button onclick="loadMarkdown('L3-Workflow Details for RestHours Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Workflow Details</button></li>
-              <li><button onclick="loadMarkdown('L3-Low Level Design-Configuration Manual for Back-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Configuration Manual</button></li>
+              <li><button onclick="loadMarkdown('L3-FRS-BCKND.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Functional Requirements Specification for Backend</button></li>
+              <li><button onclick="loadMarkdown('L3-NFRS-BCKND.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Non-Functional Requirements Specification for Backend</button></li>
+              <li><button onclick="loadMarkdown('L3-KD-BCKND.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Key Decisions for Backend</button></li>
+              <li><button onclick="loadMarkdown('L3-LLD-BCKND.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Low-Level Design Document for Backend</button></li>
+              <li><button onclick="loadMarkdown('L3-IB-BCKND.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Implementation Backlog for Backend</button></li>
+              <li><button onclick="loadMarkdown('L3-TSD-BCKND.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Technology Stack Documentation for Backend</button></li>
+              <li><button onclick="loadMarkdown('L3-WF-BCKND.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Workflow Details for Backend</button></li>
+              <li><button onclick="loadMarkdown('L3-CM-BCKND.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Configuration Manual for Backend</button></li>
+              <li><button onclick="loadMarkdown('L3-DG-BCKND.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Design Guide for Backend</button></li>
             </ul>
-
-            <h4 class="text-md font-medium mt-4 mb-1">Front-End</h4>
+            <h4 class="text-md font-medium mt-4 mb-1">Channel Partner App</h4>
             <ul class="space-y-1">
-              <li><button onclick="loadMarkdown('L3-Functional Requirements Specification for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Functional Requirements</button></li>
-              <li><button onclick="loadMarkdown('L3-Non-Functional Requirements Specification for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Non-Functional Requirements</button></li>
-              <li><button onclick="loadMarkdown('L3-Component Specific Key Decisions for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Key Decisions</button></li>
-              <li><button onclick="loadMarkdown('L3-Component-Specific Low-Level Design Document for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Low-Level Design Document</button></li>
-              <li><button onclick="loadMarkdown('L3-Component Implementation Backlog for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Implementation Backlog</button></li>
-              <li><button onclick="loadMarkdown('L3-Technology Stack Documentation for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Technology Stack</button></li>
-              <li><button onclick="loadMarkdown('L3-Workflow Details for Rest Hours Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Workflow Details</button></li>
-              <li><button onclick="loadMarkdown('L3-Low Level Design-Configuration Manual for Front-End.md')" class="text-left w-full px-2 py-1 rounded hover:bg-gray-100">Configuration Manual</button></li>
+              <li><button onclick="loadMarkdown('L3-FRS-CPAPP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Functional Requirements Specification for Channel Partner App</button></li>
+              <li><button onclick="loadMarkdown('L3-NFRS-CPAPP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Non-Functional Requirements Specification for Channel Partner App</button></li>
+              <li><button onclick="loadMarkdown('L3-KD-CPAPP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Key Decisions for Channel Partner App</button></li>
+              <li><button onclick="loadMarkdown('L3-LLD-CPAPP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Low-Level Design Document for Channel Partner App</button></li>
+              <li><button onclick="loadMarkdown('L3-IB-CPAPP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Implementation Backlog for Channel Partner App</button></li>
+              <li><button onclick="loadMarkdown('L3-TSD-CPAPP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Technology Stack Documentation for Channel Partner App</button></li>
+              <li><button onclick="loadMarkdown('L3-WF-CPAPP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Workflow Details for Channel Partner App</button></li>
+              <li><button onclick="loadMarkdown('L3-CM-CPAPP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Configuration Manual for Channel Partner App</button></li>
+              <li><button onclick="loadMarkdown('L3-DG-CPAPP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Design Guide for Channel Partner App</button></li>
+            </ul>
+            <h4 class="text-md font-medium mt-4 mb-1">Customer App</h4>
+            <ul class="space-y-1">
+              <li><button onclick="loadMarkdown('L3-FRS-CUSTAP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Functional Requirements Specification for Customer App</button></li>
+              <li><button onclick="loadMarkdown('L3-NFRS-CUSTAP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Non-Functional Requirements Specification for Customer App</button></li>
+              <li><button onclick="loadMarkdown('L3-KD-CUSTAP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Key Decisions for Customer App</button></li>
+              <li><button onclick="loadMarkdown('L3-LLD-CUSTAP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Low-Level Design Document for Customer App</button></li>
+              <li><button onclick="loadMarkdown('L3-IB-CUSTAP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Implementation Backlog for Customer App</button></li>
+              <li><button onclick="loadMarkdown('L3-TSD-CUSTAP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Technology Stack Documentation for Customer App</button></li>
+              <li><button onclick="loadMarkdown('L3-WF-CUSTAP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Workflow Details for Customer App</button></li>
+              <li><button onclick="loadMarkdown('L3-CM-CUSTAP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Configuration Manual for Customer App</button></li>
+              <li><button onclick="loadMarkdown('L3-DG-CUSTAP.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Design Guide for Customer App</button></li>
+            </ul>
+            <h4 class="text-md font-medium mt-4 mb-1">Web Portal</h4>
+            <ul class="space-y-1">
+              <li><button onclick="loadMarkdown('L3-FRS-WEBPRT.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Functional Requirements Specification for Web Portal</button></li>
+              <li><button onclick="loadMarkdown('L3-NFRS-WEBPRT.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Non-Functional Requirements Specification for Web Portal</button></li>
+              <li><button onclick="loadMarkdown('L3-KD-WEBPRT.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Key Decisions for Web Portal</button></li>
+              <li><button onclick="loadMarkdown('L3-LLD-WEBPRT.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Low-Level Design Document for Web Portal</button></li>
+              <li><button onclick="loadMarkdown('L3-IB-WEBPRT.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Implementation Backlog for Web Portal</button></li>
+              <li><button onclick="loadMarkdown('L3-TSD-WEBPRT.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Technology Stack Documentation for Web Portal</button></li>
+              <li><button onclick="loadMarkdown('L3-WF-WEBPRT.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Workflow Details for Web Portal</button></li>
+              <li><button onclick="loadMarkdown('L3-CM-WEBPRT.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Configuration Manual for Web Portal</button></li>
+              <li><button onclick="loadMarkdown('L3-DG-WEBPRT.md', this)" class="sidebar-btn text-left w-full px-2 py-1 rounded">Design Guide for Web Portal</button></li>
             </ul>
           </div>
         </div>
@@ -123,7 +139,15 @@
   </footer>
 
   <script>
-    async function loadMarkdown(filePath) {
+    // Highlight selected sidebar button
+    function highlightSidebarButton(btn) {
+      document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('bg-gray-200', 'text-[var(--primary-color)]', 'font-bold'));
+      if (btn) {
+        btn.classList.add('bg-gray-200', 'text-[var(--primary-color)]', 'font-bold');
+      }
+    }
+    async function loadMarkdown(filePath, btn) {
+      highlightSidebarButton(btn);
       try {
         const response = await fetch(filePath);
         if (!response.ok) throw new Error(`Failed to load ${filePath}: ${response.status}`);
