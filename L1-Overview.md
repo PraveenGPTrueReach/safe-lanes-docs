@@ -1,116 +1,113 @@
 ## L1-OVERVIEW: Solution Overview (High-Level)
 
 ### 1. Business Overview
-This solution provides an end-to-end Lead Management Platform for solar product sales at Solarium Green Energy. It addresses:  
-- Capturing leads from multiple channels (Channel Partners, direct Customer requests, and Admin/KAM entries).  
-- Managing sales funnels (status transitions, follow-ups, quotations, and commission payouts).  
-- Centralizing documentation (lead-level files, KYC documents, immutable quotation archives).  
-- Enforcing workflows and security for Admin, KAM, Channel Partners, and Customers in a unified system.
+SafeLanes’ Rest Hours Submodule addresses maritime rest-hour compliance (MLC, STCW, OPA) by capturing crew work/rest logs, detecting violations, logging non-conformities (NCs), and providing multi-level analytics (vessel and office). The solution runs partially offline on vessels and synchronizes with an office server when connectivity is available. It extends the existing SafeLanes “Sail App” with modular front-end integration (Module Federation using Angular 16 for more robust support) and a standalone Nest.js back-end microservice.
+
+Additionally, certain external or auditor-type users may be granted read-only access for compliance reviews, if configured in the SafeLanes RBAC settings. For clarity, references throughout other documents to “SAIL login” and “SafeLanes login” are synonymous, referring to the same credential and authentication system.
+
+Note: If the existing Sail App is not yet on Angular 16 or higher, the SafeLanes team must upgrade it to ensure module federation compatibility. The Rest Hours microfrontend will remain on Angular 16. 
+Alternatively, if the host environment cannot be upgraded immediately to Angular 16, a minimal fallback approach (e.g., using a Web Component wrapper or an iframe-based isolation) may be implemented to accommodate older Angular versions. This approach is only recommended as a temporary measure to reduce the immediate upgrade risk; it may limit certain microfrontend features and should ideally be replaced by a full host upgrade as soon as feasible.
 
 ### 2. Key Entities
+- **Vessel**: Hosts local server + local DB (MySQL). Runs the Rest Hours service offline.  
+- **Crew**: Have role-based permissions (User, Admin, Super Admin) to enter/approve hours.  
+- **Office**: Primary location with aggregated data usage, advanced analytics, and managerial oversight. Roles include Office User, Office Admin, and Office Super Admin.  
+- **Non-Conformities & Violations**: System-detected indicators of rest-hour breaches. Handled both at vessel and office levels.  
+- **External**: Read-only (auditor) role that can view rest-hour data for oversight, without editing permissions.
 
-1. **User Roles**  
-   - Channel Partner (CP): Creates/manages leads, uploads KYC on behalf of customers, generates quotes, and earns commissions.  
-   - Customer: Initiates service requests, views/accepts or rejects quotations, uploads personal KYC documents.  
-   - Key Account Manager (KAM): Oversees CP performance, manages leads in assigned territories, approves or rejects KYC docs.  
-   - Admin: Full system authority—manages users (CPs, KAMs), overrides lead statuses, configures system data, and handles commission payouts.
+### 3. Data Flow
 
-2. **Data Objects**  
-   - **Leads**: Central record with customer, status, follow-up dates, and attachments.  
-   - **Quotations**: Pricing records with cost breakdown and subsidy calculations, mapped to a single lead.  
-   - **KYC Documents**: Customer identity and financial documents.  
-   - **Tickets**: Support or service-related issues.  
-   - **Products & BOM**: Catalog of panels, inverters, fees, and innate cost parameters for quote generation.
+1. **Onboard Data Entry**: Crew record daily rest/work blocks on the vessel (local DB).  
+2. **Validation & Violation Checks**: The system applies rule-based checks (hard-coded thresholds and codes).  
+3. **Offline Storage**: Entries remain in the local DB; updates are timestamped (UTC).  
+4. **Daily/On-Demand Sync**: Data syncs to the office server. Last-write-wins is the primary conflict resolution mechanism for non-critical data; however, any rest-hour compliance data merges require an Admin review to avoid silent overwrites. Overwritten data is logged, and administrators may optionally review these logs after the merge. This approach preserves traceability and audit compliance by ensuring that overwritten data remains accessible for review. Additionally, the system can optionally notify users or admins when a conflict overwrite occurs, providing a minimal conflict summary interface if enabled.
 
-### 3. Flow of Data, Products, Money, and Other Assets
+   To maintain compliance, if both vessel and office edit rest-hour (or similar regulatory) data offline, the system will always prompt an Admin before overwriting, ensuring no silent overwrites occur for such fields.
 
-1. **Data Flow**  
-   - Leads, documents, and quote data originate in the apps or web portal.  
-   - They sync to the backend for centralized storage (PostgreSQL + Azure Blob for files).  
-   - Automatic push notifications and status changes flow back to apps.  
-   Lead-level documents are limited to a maximum of 7 attachments per lead, consistent with the detailed CP workflow.
+   To further mitigate clock drift on vessels that remain offline for extended periods, the system can store local-time offsets or monotonic counters in parallel with UTC timestamps, although a consistent manual or NTP-based clock sync is strongly recommended. For the stated scale, this approach is typically sufficient to maintain accurate ordering of updates.
 
-2. **Product Flow**  
-   - Stored in master data (panels, inverters, BOM, etc.) maintained by Admin.  
-   - CP or KAM selects these items via a quotation wizard to generate final system pricing.
+   To ensure reliable last-write-wins merges for non-critical data, each vessel server should maintain as accurate a system clock as possible—preferably through NTP or manual synchronization—so that UTC-based timestamps do not drift.
 
-3. **Money Flow**  
-   - No payment gateway integration.  
-   - Commissions (CP earnings) are tracked in the system. Admin marks them “Approved” or “Paid,” sending notifications.  
-   When a customer accepts a quotation via the Customer app, the lead now transitions into a “Customer Accepted” status (which has been added to the official status matrix). The CP (or Admin) must then confirm and finalize the lead as “Won,” providing an auditable short step before the lead is marked “Won.”
+5. **Office Aggregation**: Office dashboards aggregate vessel data for fleet-level compliance tracking.  
+6. **Predicted Violation Calculations**: A minimal rule-based forecast runs within the Nest.js microservice.  
+7. **Data-in-Transit Encryption**: All data synchronization and REST calls are protected with TLS 1.2 or higher to safeguard sensitive crew information.
 
-4. **Other Assets**  
-   - Uploaded KYC files (PDF/JPG/PNG ≤10 MB) and generated PDF quotations are stored in Azure Blob Storage.  
-   - Although the system currently retains documents with a default retention/archival policy of 7 years, we may revise this period or introduce advanced archival rules later—once load is observed—to manage costs and address future compliance requirements.
+There is no direct financial flow in this module. The system primarily handles operational and compliance data.
 
 ### 4. Key Components
 
-1. **Channel Partner Mobile App (CPAPP)**  
-   - React Native app supporting offline read caching only; no offline CRUD is supported.  
-   - Manages leads, quotes, KYC uploads, and commission tracking.
+- **Microfrontend (Angular)**  
+  In order to streamline Module Federation, the team will utilize Angular 16, which offers better integrated support for microfrontends and reduces configuration complexities. On vessels operating offline, the microfrontend can be loaded from a local server if remote fetching is unavailable.  
+  Additionally, if the remoteEntry endpoint is unreachable, the system falls back to a bundled local copy (e.g., via environment-based or service-worker rewrite), ensuring the UI remains accessible without an external URL.
 
-2. **Customer Mobile App (CUSTAP)**  
-   - React Native app for self-registration, lead/service creation, receiving/sharing quotes, uploading personal KYC docs, and raising tickets.
+- **Nest.js Back-End Service**  
+  - Provides REST endpoints for recording hours, retrieving schedule/plan data, detecting violations, and performing basic rule-based predictions.  
+  - Handles authentication locally with cached JWT tokens for offline scenarios, re-validating when connectivity is restored.  
+  - If tokens expire while the vessel is still offline, the local server can enforce a re-auth procedure under Master or Admin supervision. Instead of locally signed tokens, short-lived offline session keys are stored in the vessel’s local database, rotated frequently to reduce potential replay. These offline session keys are valid for a maximum of 14 days, after which re-authentication with Master or Admin override becomes mandatory, mitigating the risk of indefinite usage. Once connectivity is restored, re-auth with the central identity service is mandatory.  
+  - Deployed with PM2, reverse-proxied by Nginx.
 
-3. **Web Portal (WEBPRT)**  
-   - React + TypeScript SPA.  
-   - Provides separate role-based interfaces for Admin and KAM.  
-   - Supports lead imports, advanced reports, user management, and master data configuration.
+- **MySQL Databases**  
+  - Main server DB for consolidated records (office).  
+  - Local DB on each vessel for offline operation and daily/on-demand sync.
 
-4. **Backend (BCKND)**  
-   - Single “modular monolith” architecture.  
-   - Hosted on Microsoft Azure (Web App / Container approach) with Azure Database for PostgreSQL Flexible Server (General Purpose) sized for ~400 concurrent users and tested for spikes up to ~600.  
-   - Exposes REST APIs, handles authentication (JWT), business logic, and integrates with external services (SMS, email).
+- **Authentication & RBAC**  
+  Utilizes SafeLanes JWT-based auth. Existing roles are extended (or new claims created) for Vessel/Office user distinctions and optional External read-only access. Where needed, additional claims may be added in the identity service to enforce fine-grained rest-hours permissions. In fully offline mode on a vessel, pre-existing tokens allow continued access; if tokens approach expiry, onboard procedures and the local server’s re-auth logic handle credential renewal to maintain security. Instead of locally signed tokens, short-lived offline session keys are recognized only within the vessel environment and must be re-validated once connectivity to the central SafeLanes service is restored. These offline session keys are valid for a maximum of 14 days, after which re-authentication with Master or Admin override becomes mandatory, mitigating the risk of indefinite usage. Once connectivity is restored, re-auth with the central identity service is mandatory.  
+
+  During fully offline periods, if a user’s JWT has expired, the local server issues a short-lived session key mirroring the user’s role and identity. This key must be revalidated with the central identity service upon reconnection, ensuring consistent RBAC enforcement.
 
 ### 5. High-Level Architecture
-
-- **Cloud Provider**: Microsoft Azure.  
-- **Compute & Containers**: Azure Web App (containerized) hosting the backend.  
-- **Database**: Azure Database for PostgreSQL Flexible Server for data.  
-- **Object Storage**: Azure Blob for documents and PDFs, using secure pre-signed URLs.  
-- **Mobile Apps**: React Native, packaged for iOS/Android.  
-- **Web Frontend**: React SPA with TypeScript, communicating over HTTPS to REST endpoints.  
-- **Integration Adapters**: MSG91 (SMS), SendGrid (email).  
-- **Scalability Targets**: Baseline ~400 concurrent users, with short-term spikes up to ~600.  
-- **Security**: TLS for all traffic; at-rest encryption (AES-256) for data and object storage.  
-- **Backup & DR**: Daily full backups and point-in-time recovery (PITR); currently single-region deployment (with geo-redundant storage as an option) and the possibility of adding a secondary region if future SLAs demand.  
-- All Blob access uses short-lived (~5 minute) SAS tokens with optional IP-range filters, ensuring minimal access scope for uploads and downloads.
+- **On-Prem Vessel Servers**: Each vessel runs the Nest.js service on a local server (Linux or Windows) with MySQL. Nginx and PM2 handle application processes.  
+- **Office Server**: Another Nest.js instance (the same codebase) and MySQL run on on-prem or hosted hardware (16 GB RAM, 4 cores).  
+- **Data Synchronization**: Timestamp-based merges for non-critical data. A brief overwrite log is kept for optional post-merge conflict review when both sides edit the same record offline. For any compliance or rest-hour data conflicts, the system prompts Admin review to prevent silent overwrite. Conflicting changes beyond the last-write-wins approach remain logged, preserving an audit trail for manual review if desired.  
+- **Offline Microfrontend Loading**: During isolated operation, each vessel serves the Rest Hours microfrontend from its local server, ensuring the UI remains accessible when remote Federation endpoints are unreachable. A local copy of the compiled microfrontend is bundled in the vessel deployment package, preventing any dependence on external URLs.  
+- **Development Stack**:  
+  - Angular microfrontend (version 16) with Module Federation support.  
+  - Nest.js (TypeScript) for back-end logic.  
+  - MySQL 8.x or similar for both vessel and office databases.  
+  - PM2 for process management, Nginx for reverse proxy.
 
 ### 6. Non-Standard Elements
 
-1. **Lead Status Matrix**  
-   - Enforces controlled transitions and mandatory fields (e.g., remarks, follow-up date, token number).  
-   - A new “Customer Accepted” status is now included in the matrix. Once the customer approves the quotation, the lead enters this transitional status until CP or Admin finalizes it to “Won.”
-   - Allows override by Admin/KAM but logs all changes.
+- **Offline Operation**  
+  Each vessel instance is fully autonomous while offline, storing data locally.
 
-2. **Commission Module**  
-   - Not a typical payment gateway; rather, an internal tracking and approval system for the CP’s payouts.
+- **Last-Write-Wins Conflict Resolution**  
+  While last-write-wins remains the default for non-critical fields, admin intervention is mandatory before overwriting any rest-hour compliance data. All replaced records are preserved in an overwrite log to maintain an audit trail. The overwrite log is stored in a protected, read-only format to fortify audit integrity. Authorized personnel can reconstruct overwritten records for compliance reviews if needed. For compliance-related data, the system automatically flags conflicts and requires the Admin to confirm which version to keep, eliminating silent overwrites.
 
-3. **Tiered Quotation Wizard**  
-   - Automatic subsidy calculation, dynamic product selection, and final PDF locking for immutability.
+- **Configurable Regulatory Rules**  
+  MLC, STCW, and OPA regulatory logic is externalized (e.g., in versioned JSON or YAML) so that the vessel can still use a cached version in extended offline scenarios.
+
+- **UTC Timestamps**  
+  All entries are stored in UTC. The UI offsets these to local ship time to align with the vessel’s actual day boundaries. If needed for borderline day-bound compliance checks, the system can also capture a local-time component (or offset) alongside UTC to help reduce the risk of false violation triggers.
+
+- **Encryption at Rest**  
+  The solution can optionally employ MySQL’s native TDE or whole-disk encryption for additional security.  
+  Given the presence of personally identifiable crew data, encryption at rest is strongly recommended to comply with applicable regulations (e.g., GDPR, flag-state requirements). In some jurisdictions, this may be mandatory. Ultimately, implementing at-rest encryption is subject to client-side policies and infrastructure.
+
+- **Manual Deployments**  
+  SafeLanes uses a script-based build/test/package approach for vessel and office installations, with no Docker usage.
+
+- **Module Federation**  
+  Leveraging Angular 16’s built-in support allows the rest-hour front-end to load dynamically in the existing Sail App at runtime.
 
 ### 7. High-Level Deployment & Integration Strategy
+- **Deployment Environment**  
+  - Office side: Single-cloud VM (16 GB RAM, 4 cores).  
+  - Vessel side: Local server with 8 GB RAM, 2 cores. Deployed behind local Nginx, with PM2 controlling the Nest.js process.  
+  - No container usage remains the standard.
 
-1. **Deployment**  
-   - Containerized backend deployed to Azure Web App.  
-   - React SPA served via Azure Web App or CDN.  
-   - Two mobile apps built in React Native, distributed via App Store/Play Store.  
-   - Environment: initially single-region production deployment with a future option of enabling high availability if business justifies it.  
-   However, we will enable Azure geo-redundant storage (GRS) from day one, and we may optionally configure a read replica for PostgreSQL to cover the most basic DR needs.
+- **Integration with Sail App**  
+  - The microfrontend references shared libraries through Angular 16’s Module Federation support.  
+  - The back-end microservice integrates with existing SafeLanes JWT auth, retrieving crew/role data from the Sail DB or identity service.
 
-2. **CI/CD**  
-   - Source control in a Git repository (e.g., Azure Repos or GitHub).  
-   - Automated build pipeline for each push (backend, web, mobile).  
-   - Automated tests (unit + integration).  
-   - Continuous delivery to a staging environment; manual promotion to production.
+- **Data Sync & Collaboration**  
+  Instead of a full-table diff for daily sync, the system aims to use updatedAt timestamps for more incremental synchronization, reducing bandwidth usage on limited vessel connections. The system uses updatedAt fields to determine the newest changes, logging overwritten data for post-merge review. All overwritten data is kept in an overwrite log, maintaining an audit trail and preserving previous states for compliance. For routine data, if conflict-flagging is not invoked, last-write-wins applies automatically. For any rest-hour compliance records, the system forces an admin review step, ensuring no silent overwrite occurs.
 
-3. **Integration**  
-   - **Third-Party APIs**: MSG91 for SMS OTP, SendGrid for email.  
-   - **Logging & Monitoring**: Azure Monitor, Application Insights.  
-   - **Security**: Role-based access tokens for every API endpoint, with enforced expiration.
+- **Backup & Recovery**  
+  Daily snapshots of each vessel’s local DB and office DB are recommended. SafeLanes will store these backups offsite (where feasible) or on secondary media.
 
-4. **Implementation Considerations**  
-   - Deploy as a “modular monolith” for current scale, with a flexible single-region approach.  
-   - We plan to observe real-world load and only then consider a second region or additional overhead (e.g., GRS, read replicas) if uptime SLAs or usage demand it. (See the note above on minimal GRS/DR configuration for day-one readiness.)  
-   - Maintain a 7-year retention policy for documents, with a plan to add TTL or manual archival in future increments if required.  
-   - Performance has been tested for surges near 600 concurrent sessions, and typical usage should remain near 400. Further scaling can be handled by adding compute resources or read replicas when usage grows.
+- **Future Growth**  
+  Architecture is designed for moderate concurrency (<~100 concurrent office users, ~30 crew per vessel). Basic horizontal scaling can be introduced if usage grows, but the current design is considered sufficient for the stated scale.
+
+- **Encrypted Communication**  
+  All data transfers between vessel and office servers (including sync operations) must occur over a secure channel (TLS 1.2 or higher).
