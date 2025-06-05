@@ -227,9 +227,9 @@ This document provides a granular list of implementation items for the Back-End 
   • Effort Estimate: 3 points  
   • Priority: High
 
-### 8\. Non-Functional & Cross-Cutting
+### 7\. Non-Functional & Cross-Cutting
 
-#### 8.1 Logging & Error Handling
+#### 7.1 Logging & Error Handling
 
 • Description: Implement a unified logger (e.g., Nest.js logger) and exception filters to handle 4xx/5xx errors.  
 • Technical Requirements:
@@ -246,7 +246,7 @@ This document provides a granular list of implementation items for the Back-End 
   • Effort Estimate: 2 points  
   • Priority: Medium
 
-#### 8.2 Unit & Integration Testing
+#### 7.2 Unit & Integration Testing
 
 • Description: Implement unit tests for controllers/services and integration tests for DB writes, auditing, offline/online transitions.  
 • Technical Requirements:
@@ -263,7 +263,7 @@ This document provides a granular list of implementation items for the Back-End 
 
 ---
 
-### 9\. Priority & Sequence Overview
+### 8\. Priority & Sequence Overview
 
 Below is a simplified sequence for planning:
 

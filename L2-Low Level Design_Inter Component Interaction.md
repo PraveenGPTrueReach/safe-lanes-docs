@@ -20,16 +20,17 @@ These components communicate mainly over REST APIs, secured by TLS.
 
 The diagram below depicts a typical daily usage scenario (for rest-hour logging, visualization, and synchronization):
 
-**sequenceDiagram**  
- participant MF as Microfrontend  
- participant VBE as Vessel Back\-End (Nest.js)
+sequenceDiagram
+ participant MF as Microfrontend
+ participant VBE as Vessel Back-End (Nest.js)
 
- Note over MF**:** Crew logs rest hours offline  
- MF **\-\>\>** VBE**:** POST /resthours (daily record)  
- VBE **\-\>\>** VBE**:** Validate & store in local MySQL  
- VBE **\--\>\>** MF**:** Response \+ any violation flags  
- Note over VBE**:** Later, sync is triggered  
- VBE **\-\>\>** VBE**:** Apply updates to local MySQL
+
+ Note over MF: Crew logs rest hours offline
+ MF ->> VBE: POST /resthours (daily record)
+ VBE ->> VBE: Validate & store in local MySQL
+ VBE -->> MF: Response + any violation flags
+ Note over VBE: Later, sync is triggered
+ VBE ->> VBE: Apply updates to local MySQL
 
 • The Microfrontend calls the Vessel Back-End for daily operations when on the vessel and the Office Back-End from shore offices.  
 • The Vessel Back-End initiates synchronization with the Office Back-End, handling incremental updates based on updatedAt timestamps.
@@ -40,21 +41,22 @@ The diagram below depicts a typical daily usage scenario (for rest-hour logging,
 
 All user-facing interactions require valid SafeLanes JWT tokens The diagram below shows how vessel and office environments handle authentication:
 
-**sequenceDiagram**  
- participant User as Crew/Admin (Microfrontend)  
- participant VBE as Vessel Back\-End  
+sequenceDiagram
+ participant User as Crew/Admin (Microfrontend)
+ participant VBE as Vessel Back-End
  participant Auth as SafeLanes Identity Service
 
- User **\-\>\>** VBE**:** Login with JWT or offline session key  
- **alt** Online Vessel  
-   VBE **\-\>\>** Auth**:** Validate JWT  
-   Auth **\--\>\>** VBE**:** Token OK  
-   VBE **\--\>\>** User**:** Access Granted  
- **else** Offline  
-   VBE **\-\>\>** VBE**:** Check local session key (not expired?)  
-   VBE **\--\>\>** User**:** Access Granted (offline)  
- **end**  
- Note over VBE**:** Vessel initiates sync
+
+ User ->> VBE: Login with JWT or offline session key
+ alt Online Vessel
+   VBE ->> Auth: Validate JWT
+   Auth -->> VBE: Token OK
+   VBE -->> User: Access Granted
+ else Offline
+   VBE ->> VBE: Check local session key (not expired?)
+   VBE -->> User: Access Granted (offline)
+ end
+ Note over VBE: Vessel initiates sync
 
 - the Nest.js back-end on the vessel uses a local record of roles and JWT to keep the user authenticated only on the vessel..  
 - The Office always communicates with the identity service in real time to confirm tokens.
@@ -68,4 +70,3 @@ Inter-component calls rely on roles embedded in JWT/session keys:
 - Vessel Roles: Vessel User, Vessel Admin, Vessel Super Admin.  
 - Office Roles: Office User, Office Admin, Office Super Admin.  
 - External: read-only role with minimal or no editing privileges.
-

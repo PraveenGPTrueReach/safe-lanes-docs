@@ -107,7 +107,7 @@ The FE serves as the user-facing component for logging hours, detecting conflict
      
    - Immediately display user-friendly errors if the FE cannot connect to local or office endpoints. Activity logs (e.g., last actions) are stored on the back-end, not the FE.
 
-4\. Reliability Metrics
+3. **Reliability Metrics**
 
 - Aim for at least 99.5% monthly availability of the FE. Operators should monitor accessibility (e.g., load failures or major UI errors) to ensure the system remains functional.  
 - In the event of major failures (e.g., repeated timeouts), administrators or designated personnel should restart or redeploy the local or office instances, following standard SafeLanes procedures.
@@ -176,16 +176,14 @@ This section enumerates the relevant high-level documents and known constraints 
 3. **From L3-FRS-FE**  
      
    - Day-level rest-hour logging with half-hour blocks.  
-   -   
    - Minimal local data storage, with the majority stored in the Nest.js back-end.
 
-4\. Client Clarifications (\#1, \#2, \#3, \#4, \#5, \#7, \#8, \#10, \#11, \#12)
 
-4\. Removal of Partial Upload / Retry Logic for Attachments
+4. **Removal of Partial Upload / Retry Logic for Attachments**
 
 - Any references to partial-upload or re-try features for offline attachments are officially removed in this FE scope. Users must be online to upload attachments, ensuring consistency between documents.
 
-5\. Notation on L2 Dependencies
+5. **Notation on L2 Dependencies**
 
 - Applicable L2-level documents (if any) are not explicitly provided here. If L2 interactions or interface definitions exist, they should be cross-checked to ensure the FE meets any additional inter-service constraints.
 

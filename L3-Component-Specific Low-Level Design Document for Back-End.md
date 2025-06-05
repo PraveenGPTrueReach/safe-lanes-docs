@@ -17,12 +17,11 @@ The BE interacts with:
 - Angular Microfrontends (vessel or office) for CRUD operations on rest hours, tasks, and compliance checks.  
 - A MySQL database on each vessel or at the office for persistent storage.  
 - SafeLanes Identity Service to validate JWT tokens.  
-- 
 
 Below is a simplified diagram recapping how the BE fits into the entire system:
 
-**flowchart** LR  
-   A\["Angular Front-End\<br\>Vessel or Office"\] **\--\>** B("Back-End\<br\>Nest.js \+ MySQL")
+flowchart LR
+   A["Angular Front-End<br>Vessel or Office"] --> B("Back-End<br>Nest.js + MySQL")
 
 ---
 

@@ -44,6 +44,7 @@ Below is an example set of environment variables commonly used in the BE applica
 | TLS\_KEY\_PATH | Path to the SSL private key (if applicable) | /etc/ssl/private/server.key |
 | TLS\_CERT\_PATH | Path to the SSL certificate chain (if applicable) | /etc/ssl/certs/server.crt |
 
+
 ##### 2.3 PM2 Process Configuration
 
 Use an ecosystem file (ecosystem.config.js) to define how PM2 manages the BE process (see L3-DG-BE for examples). Common configuration fields:
@@ -83,7 +84,6 @@ Consult L2-LLD-IC for deeper insights into parameter-level interactions and any 
 - TLS\_KEY\_PATH, TLS\_CERT\_PATH (optional)  
   - If using HTTPS through the application itself, specify the private key and certificate.  
   - If employing Nginx for TLS termination, these may not be needed at the application layer.  
-  - 
 
 ---
 
@@ -104,7 +104,6 @@ Use an ephemeral local MySQL instance that does not rely on containers (Docker),
 - Mirrors production settings for realistic testing.  
 - Use a staging MySQL server with proper user credentials.  
 - Use intermediate certificates or the same CA as production but with staging domain names.  
-- 
 
 ##### 4.3 Production
 
@@ -116,8 +115,7 @@ Use an ephemeral local MySQL instance that does not rely on containers (Docker),
 ##### 4.4 Vessel vs. Office Differences
 
 - Vessel: Typically DB\_HOST=localhost, limited or no inbound firewall exceptions.  
-- Office: DB\_HOST may be a separate server or local. If a separate MySQL host is used, ensure network reliability and secure connectivity.  
-- 
+- Office: DB\_HOST may be a separate server or local. If a separate MySQL host is used, ensure network reliability and secure connectivity.
 
 ---
 
@@ -134,14 +132,12 @@ Additionally, see L2-LLD-IC for more detailed interface definitions and configur
 
 - Ensure MySQL is running and accessible on the configured DB\_HOST and DB\_PORT.  
 - For offline vessel scenarios, the local MySQL server must start at system boot.  
-- On the office side, regular backups to a central backup system are recommended.  
-- 
+- On the office side, regular backups to a central backup system are recommended. 
 
 ##### 5.3 Identity Service 
 
 - Whether it is  the vessel or office, the BE verifies JWT tokens with the local SafeLanes Identity Service.  
 - Set JWT\_SECRET or store the public key if tokens are signed externally.  
-- 
 
 ---
 

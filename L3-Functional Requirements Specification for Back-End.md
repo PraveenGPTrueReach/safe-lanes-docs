@@ -27,7 +27,6 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 • Implements L1-FRS §2.1  
 • The BE must validate user roles (e.g., VesselUser, OfficeAdmin) via JWT tokens.  
 • Must only allow write operations if the user has proper role/permission, enforcing SafeLanes role-based rules.  
-•.
 
 #### 2.2 Offline Operations
 
@@ -35,8 +34,7 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 • The BE must support full offline functionality on vessel side:  
 – Persist new or updated daily rest-hour records in the local MySQL.  
 – Confirm compliance checks locally.  
-–.  
-•, the BE must always validate users against the locally available SAIL-app’s identity service by obtaining standard JWTs.
+• The BE must always validate users against the locally available SAIL-app’s identity service by obtaining standard JWTs.
 
 #### 2.3 Recording and Editing Daily Rest Hours
 
@@ -116,7 +114,7 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 • DELETE /tasks/:id  
 – Marks the task as deleted (e.g., setting isDeleted \= true) but keeps it in the database to satisfy indefinite retention.
 
-#### 3\. Authentication & Session Management
+#### 3.3 Authentication & Session Management
 
 • The BE uses SafeLanes Identity Service for JWT validation.
 

@@ -112,7 +112,7 @@ This document provides a comprehensive and granular list of implementation tasks
 • Effort Estimate: 5 story points.  
 • Priority: Medium.
 
-#### 5.2 No Partial Attachment Upload Offline
+#### 4.2 No Partial Attachment Upload Offline
 
 • Description: Enforce no file attachment logic while offline—prompt user to wait until connectivity is restored. (offline means the FE is not connected to the local server)  
 • Source Requirements:  
@@ -132,9 +132,9 @@ This document provides a comprehensive and granular list of implementation tasks
 
 ---
 
-### 6\. External Auditor (Read-Only) Views
+### 5\. External Auditor (Read-Only) Views
 
-#### 6.1 Restricted Auditor UI
+#### 5.1 Restricted Auditor UI
 
 • Description: Provide strict read-only pages for external auditor roles.  
 • Source Requirements:  
@@ -151,9 +151,9 @@ This document provides a comprehensive and granular list of implementation tasks
 
 ---
 
-### 8\. Navigation & Screen Inventory
+### 6\. Navigation & Screen Inventory
 
-#### 8.1 Main Navigation Structure
+#### 6.1 Main Navigation Structure
 
 • Description: Implement a top-level or sidebar menu reflecting the \~20–25 pages/dialogs defined in L3-FRS-FE §3.8.  
 • Source Requirements:  
@@ -169,7 +169,7 @@ This document provides a comprehensive and granular list of implementation tasks
 • Effort Estimate: 3 story points.  
 • Priority: Medium.
 
-#### 8.2 Responsive Behavior
+#### 6.2 Responsive Behavior
 
 • Description: Ensure screens are usable on desktop and tablets; minimal breakpoints for 768px widths.  
 • Source Requirements:  

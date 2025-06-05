@@ -61,11 +61,9 @@ flowchart LR
 - Clarifications Adopted:  
     
   - Minimal local checks (Clarification \#1).  
-  -   
   - Single daily offset for time zones (Clarification \#3).  
   - No queue for error logging (Clarification \#4).  
   - No service worker asset caching (Clarification \#5).  
-  -   
   - Lightweight RxJS-based state management (Clarification \#7).  
   - Single build with runtime checks (Clarification \#8).  
   - Warn on version mismatch for most cases; see Section 5.2 for updated handling. (Clarification \#9 revised)  
@@ -110,34 +108,38 @@ The FE is divided into feature modules, each focusing on a primary function. Con
 
 Below is a simplified class diagram illustrating some representative classes (components and services). For brevity, not every component is shown:
 
-**classDiagram**  
-direction TB  
-   **class** CoreModule **{**  
-     **\-**providers**:** AuthService, OfflineStateService  
-     **\-**forRoot**()**  
-   **}**
+classDiagram
+direction TB
+   class CoreModule {
+     -providers: AuthService, OfflineStateService
+     -forRoot()
+   }
 
-   **class** RestHoursModule **{**  
-     **\+**DailyLogsComponent  
-     **\+**RestHoursService  
-   **}**
 
-   **class** AuthService **{**  
-     **\-**tokenMemoryStorage  
-     **\+**login**(**credentials**)**  
-     **\+**logout**()**  
-     **\+**getCurrentToken**()**  
-   **}**
+   class RestHoursModule {
+     +DailyLogsComponent
+     +RestHoursService
+   }
 
-   **class** RestHoursService **{**  
-     **\+**getDailyLogs**(**date**)**  
-     **\+**saveDailyLog**(**logData**)**  
-     **\+**updateDailyLog**(**logId, data**)**  
-   **}**
 
-   CoreModule **\--\>** AuthService  
-   RestHoursModule **\--\>** RestHoursService  
-   RestHoursService **\--\>** AuthService **:** "Auth needed"
+   class AuthService {
+     -tokenMemoryStorage
+     +login(credentials)
+     +logout()
+     +getCurrentToken()
+   }
+
+
+   class RestHoursService {
+     +getDailyLogs(date)
+     +saveDailyLog(logData)
+     +updateDailyLog(logId, data)
+   }
+
+
+   CoreModule --> AuthService
+   RestHoursModule --> RestHoursService
+   RestHoursService --> AuthService : "Auth needed"
 
 1. AuthService stores JWTs in memory only (no localStorage or sessionStorage) to meet security requirements.  
 2. OfflineStateService tracks whether the FE is offline or online, checking connectivity to the local or office Nest.js.  
@@ -196,8 +198,7 @@ The FE includes \~20–25 screens or dialogs across its modules. Each screen has
     
   - A date selector and 48 half-hour blocks.  
   - “Save” button that triggers the saveDailyLog service call.  
-  - A small “Predicted Violations” region that warns the user if the day is over-allocated or near known rule thresholds.  
-  - 
+  - A small “Predicted Violations” region that warns the user if the day is over-allocated or near known rule thresholds. 
 
 
 - PlanningComponent:  
@@ -252,7 +253,6 @@ Below are minimal endpoint summaries relevant to the FE. All calls require authe
      - PUT /resthours/daily/{id}  
    - Authorization Required: Vessel or Office user roles.   
    - Methods: GET for retrieval; POST/PUT for creation/updating.  
-   - 
 
    
 
@@ -265,7 +265,6 @@ Below are minimal endpoint summaries relevant to the FE. All calls require authe
      - PUT /planning/{taskId}  
    - Authorization Required: Vessel Admin, Office Admin.  
    - Methods: Basic CRUD for tasks.  
-   - 
 
 ---
 
@@ -279,23 +278,24 @@ Roles (User, Admin, Super Admin, Auditor) are embedded in the token. The FE cond
 
 Below is an updated security flow diagram for the FE that aligns with the separation of the Identity Service:
 
-**sequenceDiagram**  
- participant UI as FE (Browser)  
- participant Auth as AuthService  
- participant Identity as SafeLanes Identity Service  
+sequenceDiagram
+ participant UI as FE (Browser)
+ participant Auth as AuthService
+ participant Identity as SafeLanes Identity Service
  participant VesselBE as Vessel Nest.js
 
- UI **\-\>\>** Auth**:** Attempt to login  
- **alt** Online  
-   Auth **\-\>\>** Identity**:** Validate credentials  
-   Identity **\--\>\>** Auth**:** JWT token  
-   Auth **\--\>\>** UI**:** Store token in memory  
- **else** Offline  
-   Auth **\-\>\>** VesselBE**:** Request offline session key  
-   VesselBE **\--\>\>** Auth**:** short-lived token  
-   Auth **\--\>\>** UI**:** Store token in memory  
- **end**  
- UI **\-\>\>** Auth**:** Attach token to subsequent calls e.g. /resthours
+
+ UI ->> Auth: Attempt to login
+ alt Online
+   Auth ->> Identity: Validate credentials
+   Identity -->> Auth: JWT token
+   Auth -->> UI: Store token in memory
+ else Offline
+   Auth ->> VesselBE: Request offline session key
+   VesselBE -->> Auth: short-lived token
+   Auth -->> UI: Store token in memory
+ end
+ UI ->> Auth: Attach token to subsequent calls e.g. /resthours
 
 ### 5.2 Data Protection
 

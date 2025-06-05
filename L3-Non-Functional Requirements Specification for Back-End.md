@@ -26,7 +26,6 @@ The Back-End must handle typical CRUD operations for daily rest-hour logs, tasks
 
 - Under normal load (\~30 vessel users, \~100 office users), 95% of standard CRUD requests (create/update rest-hour records, tasks) should complete within 2 seconds.  
 - More complex or aggregated endpoints (dashboards, simple analytics) should generally respond within 4 seconds for 95% of requests.  
-- 
 
 #### 3.2 Throughput & Concurrency
 

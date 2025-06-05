@@ -102,7 +102,6 @@ The FE must specify its exposed modules and remoteEntry path in Angular’s Modu
   - Vessel Example: [http://vessel.local:3000/](http://vessel.local:3000/)  
   - Office Example: [https://office.server/api/](https://office.server/api/)  
 - Confirm these URLs match any reverse-proxy settings from Nginx or PM2 per L3-DG-FE.  
-- .
 
 ---
 

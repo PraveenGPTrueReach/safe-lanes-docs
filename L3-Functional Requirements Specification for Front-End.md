@@ -35,9 +35,7 @@ The front-end does not directly integrate with external third-party services, as
    - Accepts JWT tokens from the respective locally available SafeLanes Identity Service.  
    - Requires the user to re-login if the browser is closed (no persistent storage of session keys).  
 2. The FE must display role-appropriate functionality and menu items (e.g., Vessel User, Vessel Admin, Vessel Super Admin, Office Admin, etc.).  
-3.   
-4.   
-5. Endpoints and Methods:  
+3. Endpoints and Methods:  
    - POST /auth/login (when online): FE obtains JWT token.  
    - 
 
@@ -70,7 +68,7 @@ The front-end does not directly integrate with external third-party services, as
    - POST /resthours/daily  
    - PUT /resthours/daily/{recordId}
 
-#### 3.5 Planning and Scheduling
+#### 3.4 Planning and Scheduling
 
 (Implements L1-FRS §§2.4, 2.7)
 
@@ -85,9 +83,8 @@ The front-end does not directly integrate with external third-party services, as
    - GET /planning?startDate=…\&endDate=…  
    - POST /planning  
    - PUT /planning/{taskId}  
-   - 
 
-#### 3.7 External Auditor (Read-Only) Views
+#### 3.5 External Auditor (Read-Only) Views
 
 (Implements L1-FRS §§2.1)
 
@@ -96,7 +93,7 @@ The front-end does not directly integrate with external third-party services, as
 3. Endpoints and Methods:  
    - Typically the same GET endpoints as with other roles, but the UI hides any write or edit actions.
 
-#### 3.8 Screen Inventory & Navigation
+#### 3.6 Screen Inventory & Navigation
 
 (Relates to L1-FRS overall scope)
 
