@@ -523,7 +523,7 @@
   - Recording Screens O2.0a, O2.0b and O2.0c  
   - Office Super Admin will have access to all the features of Rest Hours module
 
-########## 6.3 Access the Rest Hours Dashboard
+########## 7.3 Access the Rest Hours Dashboard
 
 - This is the default screen that opens up when the Office Super Admin logs in (Screen O1.0a)  
 - Default view is for current month  
