@@ -1,12 +1,12 @@
 ## L1-NFRS: Non-Functional Requirements Specification (NFRS) (High-Level)
 
-### 1\. Introduction
+## 1. Introduction
 
-This document enumerates the overarching non-functional requirements for the SafeLanes Rest Hours Submodule. It addresses performance targets, security standards, usability considerations, reliability expectations, compliance obligations, and the operating environment. These high-level requirements ensure the system meets maritime rest-hour regulations (MLC, STCW, OPA) without overengineering, aligning with moderate concurrency (up to \~30 vessel users, \~100 office users).
+This document enumerates the overarching non-functional requirements for the SafeLanes Rest Hours Submodule. It addresses performance targets, security standards, usability considerations, reliability expectations, compliance obligations, and the operating environment. These high-level requirements ensure the system meets maritime rest-hour regulations (MLC, STCW, OPA) without overengineering, aligning with moderate concurrency (up to ~30 vessel users, ~100 office users).
 
 ---
 
-## 2\. Performance Requirements
+## 2. Performance Requirements
 
 The system must provide efficient response times, and reasonable scalability for current usage levels:
 
@@ -18,12 +18,12 @@ The system must provide efficient response times, and reasonable scalability for
 
 ### 2.2 Scalability
 
-- The system must provide basic monitoring of CPU/memory usage on the office server to allow manual scale-up if user counts exceed \~100 office users.  
-- Vessel-side servers (up to \~30 concurrent crew) remain autonomous and are sized to handle local rest-hour entry and departmental usage.
+- The system must provide basic monitoring of CPU/memory usage on the office server to allow manual scale-up if user counts exceed ~100 office users.  
+- Vessel-side servers (up to ~30 concurrent crew) remain autonomous and are sized to handle local rest-hour entry and departmental usage.
 
 ---
 
-## 3\. Security Requirements
+## 3. Security Requirements
 
 These requirements ensure appropriate measures for data confidentiality and integrity, including offline scenarios:
 
@@ -39,7 +39,7 @@ These requirements ensure appropriate measures for data confidentiality and inte
 
 ---
 
-## 4\. Usability Requirements
+## 4. Usability Requirements
 
 The solution must remain straightforward for vessel and office personnel of varying technical expertise:
 
@@ -57,26 +57,24 @@ The solution must remain straightforward for vessel and office personnel of vary
 
 ---
 
----
-
-## 5\. Compliance Requirements
+## 5. Compliance Requirements
 
 Maritime rest-hour compliance is central to this solution, necessitating indefinite record-keeping and robust auditing:
 
 ### 5.1 Regulatory & Audit
 
-- MLC, STCW, and (optionally) OPA regulations govern the solution’s rest-hour checks. The system must store or display violation codes accordingly.  
+- MLC, STCW, and (optionally) OPA regulations govern the solution's rest-hour checks. The system must store or display violation codes accordingly.  
 - All overwrites of compliance-critical data must log before-and-after values in an immutable audit record.  
 - Data must be retained indefinitely (or follow client-specific maritime mandates) to satisfy potential flag-state or port-state inspections.
 
 ---
 
-## 6\. Environmental Requirements
+## 6. Environmental Requirements
 
 ### 6.1 Hardware & Software
 
-- Office Server: \~16 GB RAM, 4 CPU cores minimum, capable of running a Node-based server application and an SQL database, plus a process supervisor and reverse proxy suitable for the deployment.  
-- Vessel Server: \~8 GB RAM, 2 CPU cores as a baseline for offline operations with a local relational database installed.  
+- Office Server: ~16 GB RAM, 4 CPU cores minimum, capable of running a Node-based server application and an SQL database, plus a process supervisor and reverse proxy suitable for the deployment.  
+- Vessel Server: ~8 GB RAM, 2 CPU cores as a baseline for offline operations with a local relational database installed.  
 - Deployments are script-based, without requiring containerization.
 
 ### 6.2 Network Environment

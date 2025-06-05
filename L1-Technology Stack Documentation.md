@@ -25,7 +25,7 @@ This document provides a system-wide overview of the primary technologies, frame
 
 ### Angular 18.2.0
 
-- Basis for the microfrontend, leveraging Module Federation for integration with the existing SafeLanes “Sail App.”  
+- Basis for the microfrontend, leveraging Module Federation for integration with the existing SafeLanes "Sail App."  
 - Provides a robust, scalable UI and offline bundle capabilities for vessel deployments.
 
 ### Nest.js (v9+)
@@ -51,7 +51,7 @@ This document provides a system-wide overview of the primary technologies, frame
 
 - Primary relational database for both vessel and office environments.  
 - Chosen for its familiarity, offline-readiness, and support for reliable ACID transactions.  
-- Stores rest-hour logs, user profiles, conflict-resolution data,.
+- Stores rest-hour logs, user profiles, conflict-resolution data.
 
 ---
 
@@ -59,15 +59,15 @@ This document provides a system-wide overview of the primary technologies, frame
 
 ### Vessel Server
 
-- Typically a small on-premises machine (2 CPU cores, \~8 GB RAM) running Linux or Windows.  
+- Typically a small on-premises machine (2 CPU cores, ~8 GB RAM) running Linux or Windows.  
 - Hosts Nest.js and MySQL locally for offline operation.  
 - Bundles the Angular front-end to remain accessible without internet connectivity.
 
 ### Office Server / VM
 
-- Minimum 4 CPU cores, \~16 GB RAM running Linux or Windows.  
+- Minimum 4 CPU cores, ~16 GB RAM running Linux or Windows.  
 - Operates the Nest.js, MySQL, and Nginx stack with sufficient capacity for multi-vessel data aggregation and office dashboards.  
-- Manually scaled if concurrency grows beyond \~100 users.
+- Manually scaled if concurrency grows beyond ~100 users.
 
 ---
 
@@ -77,7 +77,6 @@ This document provides a system-wide overview of the primary technologies, frame
 
 - No containerization (Docker) used; deployments rely on standard Node.js build and packaging scripts.  
 - Angular and Nest.js compilation output is packaged into versioned artifacts.  
-
 
 ### Manual Release Cycles
 
@@ -96,13 +95,13 @@ This document provides a system-wide overview of the primary technologies, frame
 
 - The solution is predominantly self-contained, leveraging internal SafeLanes identity services for JWT-based authentication.  
 - No direct reliance on external APIs or cloud-based SaaS for core rest-hour functions.  
-- TLS certificates may be acquired from external Certificate Authorities (e.g., LetsEncrypt), but issuance and rotation remain the client’s choice.
+- TLS certificates may be acquired from external Certificate Authorities (e.g., LetsEncrypt), but issuance and rotation remain the client's choice.
 
 ## Testing and QA
 
 - The project will use standard testing frameworks to maintain code quality and reliability without overengineering for the current scale.  
 - For the back-end (Nest.js) code, Jest is the primary framework for unit and integration tests. Critical modules such as rest-hour validation logic receive priority coverage.  
-- For the Angular 18.2.0front-end, the default Angular CLI testing setup (Karma \+ Jasmine) is employed for unit tests, verifying components and services.  
+- For the Angular 18.2.0 front-end, the default Angular CLI testing setup (Karma + Jasmine) is employed for unit tests, verifying components and services.  
 - Integration or end-to-end tests focus on key workflows (e.g., offline/online transitions, rest-hour submission, and conflict resolution) to ensure essential functionality remains stable.  
-- This balanced testing approach provides moderate coverage (\~70–80% for major modules) while controlling complexity, aligning with practical maritime operational needs.
+- This balanced testing approach provides moderate coverage (~70–80% for major modules) while controlling complexity, aligning with practical maritime operational needs.
 

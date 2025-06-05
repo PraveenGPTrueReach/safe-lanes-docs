@@ -4,7 +4,7 @@ This document captures the specific technologies, frameworks, and tools chosen t
 
 ---
 
-### 1\. Introduction
+### 1. Introduction
 
 The SafeLanes Rest Hours FE is an Angular-based microfrontend that operates both in office and vessel environments. It integrates seamlessly with the existing Sail App (or temporarily via a fallback wrapper if the host is on older Angular). It interfaces with the Nest.js back-end services for data storage, conflict resolution, and user authentication. This TSD document outlines the key technologies used to build, test, and deploy the FE in a manner aligned with the overall system scale and offline operation requirements.
 
@@ -12,7 +12,7 @@ The SafeLanes Rest Hours FE is an Angular-based microfrontend that operates both
 
 ---
 
-### 2\. Programming Languages
+### 2. Programming Languages
 
 #### TypeScript
 
@@ -27,7 +27,7 @@ The SafeLanes Rest Hours FE is an Angular-based microfrontend that operates both
 
 ---
 
-### 3\. Frameworks and Libraries
+### 3. Frameworks and Libraries
 
 #### Angular 18.2.0
 
@@ -53,7 +53,7 @@ The SafeLanes Rest Hours FE is an Angular-based microfrontend that operates both
 
 ---
 
-### 4\. Databases
+### 4. Databases
 
 - No direct database access occurs in the FE.  
 - All offline data storage tasks reside in the vessel Nest.js \+ MySQL environment.  
@@ -61,7 +61,7 @@ The SafeLanes Rest Hours FE is an Angular-based microfrontend that operates both
 
 ---
 
-### 5\. Servers and Hosting (Front-End Perspective)
+### 5. Servers and Hosting (Front-End Perspective)
 
 - **In Office Mode:**  
     
@@ -70,7 +70,7 @@ The SafeLanes Rest Hours FE is an Angular-based microfrontend that operates both
 
 ---
 
-### 6\. DevOps Tools and Process
+### 6. DevOps Tools and Process
 
 #### Script-Based Build & Deployment
 
@@ -97,7 +97,7 @@ The SafeLanes Rest Hours FE is an Angular-based microfrontend that operates both
 
 ---
 
-### 7\. Third-Party Services
+### 7. Third-Party Services
 
 - No direct external SaaS integrations for the front-end.  
 - Authentication relies on the respective vessel’s/office’s own SafeLanes Identity Service, (all token handling and validation occur via the Nest.js back-end).  
@@ -105,7 +105,7 @@ The SafeLanes Rest Hours FE is an Angular-based microfrontend that operates both
 
 ---
 
-### 8\. Conclusion
+### 8. Conclusion
 
 The Rest Hours FE leverages Angular 16, TypeScript, and a select set of lightweight libraries to meet moderate maritime needs without adding unnecessary complexity. By focusing on a single artifact build, minimal offline logging, and standard Angular toolchains (Karma \+ Jasmine), this stack provides an efficient, maintainable path forward for both vessel and office deployments. Regular security scanning and version lifecycle reviews are incorporated to address evolving threats and keep dependencies updated.
 

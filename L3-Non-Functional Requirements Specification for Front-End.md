@@ -1,6 +1,6 @@
 ## L3-NFRS-FE: Non-Functional Requirements Specification (NFRS) for FE
 
-### 1\. Introduction
+### 1. Introduction
 
 This document specifies the non-functional requirements for the SafeLanes Rest Hours Front End (FE). The FE is an Angular 18.2.0 microfrontend capable of operating both online (office environment) and offline (vessel environment). It interacts with Nest.js back-end services (local or remote) to handle rest-hour data entry, task planning, and compliance checks. The requirements outlined here address performance, security, usability, reliability, compliance, and environmental aspects tailored to the stated project scale, avoiding overengineering or advanced solutions beyond current needs.
 
@@ -8,12 +8,12 @@ Note: The "task planning" functionality mentioned here is not fully covered in t
 
 ---
 
-### 2\. Performance Requirements
+### 2. Performance Requirements
 
 The FE must provide a responsive and smooth user experience across both vessel and office environments, ensuring basic performance targets without unnecessary complexity.
 
 1. **Page Load & Rendering**  
-   (per Clarification \#1)  
+   (per Clarification #1)  
    Maintain a Basic Page-Load Metric approach, ensuring that the initial load time does not exceed 3 seconds for at least 95% of page-load attempts. In extremely limited bandwidth conditions (e.g., \~256 kbps on vessels), some loading delays may occur, but the system should still strive for acceptable responsiveness wherever possible.  
      
 2. **CRUD Operations**  
@@ -40,7 +40,7 @@ The FE must provide a responsive and smooth user experience across both vessel a
 
 ---
 
-### 3\. Security Requirements
+### 3. Security Requirements
 
 The FE leverages SafeLanes’ existing authentication framework (JWT) while following basic Angular security best practices. It does not store extensive data client-side or implement advanced cryptographic features.
 
@@ -67,7 +67,7 @@ The FE leverages SafeLanes’ existing authentication framework (JWT) while foll
 
 ---
 
-### 4\. Usability Requirements
+### 4. Usability Requirements
 
 The FE must be straightforward for vessel crews, office staff, and occasional external/auditor users.
 
@@ -95,7 +95,7 @@ The FE must be straightforward for vessel crews, office staff, and occasional ex
 
 ---
 
-### 5\. Reliability Requirements
+### 5. Reliability Requirements
 
 The FE serves as the user-facing component for logging hours, detecting conflicts, and providing read-only auditor screens. While most reliability aspects lie in the back-end or system layer, the FE must still handle certain scenarios gracefully.
 
@@ -114,7 +114,7 @@ The FE serves as the user-facing component for logging hours, detecting conflict
 
 ---
 
-### 6\. Compliance Requirements
+### 6. Compliance Requirements
 
 The FE supports maritime rest-hour compliance by accurately capturing user inputs and displaying relevant warnings. Actual storage, audit logs, and final rule checks are handled by the back-end.
 
@@ -131,7 +131,7 @@ The FE supports maritime rest-hour compliance by accurately capturing user input
 
 ---
 
-### 7\. Environmental Requirements
+### 7. Environmental Requirements
 
 1. **Hardware & Software**  
      
@@ -154,7 +154,7 @@ The FE supports maritime rest-hour compliance by accurately capturing user input
 
 ---
 
-### 8\. Dependencies and Requirements
+### 8. Dependencies and Requirements
 
 This section enumerates the relevant high-level documents and known constraints that influence this FE’s design. Where references to “L1-FRS” previously existed, they are replaced or removed if that document is not available. Some new features (like task planning) may require updates to the L1 documents for full alignment.
 

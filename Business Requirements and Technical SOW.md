@@ -1,8 +1,8 @@
-## SafeLanes Rest Hours Submodule \-- Business Requirements & Technical SOW
+## SafeLanes Rest Hours Submodule -- Business Requirements & Technical SOW
 
 Below is a **Business-Oriented SOW** that blends **functional requirements** (i.e., what the submodule needs to do from a business perspective) with **critical technical details** (i.e., how it will be designed and integrated). This document can serve as a **business requirements** reference for stakeholders, while still containing enough detail for the development team to proceed confidently.
 
-### 1\. Introduction
+### 1. Introduction
 
 SafeLanes aims to enhance its existing maritime ERP ("Sail App") with a dedicated **Rest Hours Submodule**. The goal is to **ensure regulatory compliance** (e.g., MLC, STCW, OPA) by accurately tracking crew work/rest hours, identifying non-conformities (NCs), and providing analytics.
 
@@ -12,9 +12,9 @@ SafeLanes aims to enhance its existing maritime ERP ("Sail App") with a dedicate
 - Automate detection of **violations** to reduce compliance risk.  
 - Facilitate **planning** (fixed/variable tasks) and post-hoc analysis via **dashboards**.
 
-To achieve these objectives, the submodule will be delivered as a **standalone microservice** that seamlessly integrates with the existing Sail App via **Module Federation** (frontend) and **PM2 \+ Nginx** (backend).
+To achieve these objectives, the submodule will be delivered as a **standalone microservice** that seamlessly integrates with the existing Sail App via **Module Federation** (frontend) and **PM2 + Nginx** (backend).
 
-### 2\. Scope & Functional Requirements
+### 2. Scope & Functional Requirements
 
 1. **Core Recording**  
    - **Daily Work/Rest Hours**: Each crew member inputs hour-by-hour rest/work status (including partial hours if needed).  
@@ -36,14 +36,14 @@ To achieve these objectives, the submodule will be delivered as a **standalone m
    - **External**: Possibly read-only for auditors.  
    - Access is enforced via **JWT** tokens and existing SafeLanes RBAC.
 
-### 3\. Business Needs & Outcomes
+### 3. Business Needs & Outcomes
 
 1. **Regulatory Compliance**: Reduces risk of fines or detentions by automatically detecting rest-hour violations.  
 2. **Operational Efficiency**: Streamlined daily data entry and no manual checks on vessel/office side.  
 3. **Actionable Insights**: Dashboards help management pinpoint frequent NCs or departments prone to overwork.  
 4. **Better Planning**: Align actual recorded hours with watch schedules or unique tasks.
 
-### 4\. High-Level Technical Architecture
+### 4. High-Level Technical Architecture
 
 #### 4.1 Microservice Delivery
 
@@ -52,12 +52,12 @@ To achieve these objectives, the submodule will be delivered as a **standalone m
   - SafeLanes (the "host" application) references the rest-hour remote in webpack.config.js (ModuleFederationPlugin).  
   - The microfrontend reuses shared dependencies (e.g., AuthService, UI libraries) from the host.  
 - **Backend**:  
-  - **Nest.js** microservice (resthour\_service.js) managing REST endpoints for recording, planning, and compliance checks.  
-  - **PM2** used to run the process (e.g., pm2 start resthour\_service.js \--name resthour\_service), with **Nginx** reverse proxy (location /resthour/ { ... }).  
+  - **Nest.js** microservice (resthour_service.js) managing REST endpoints for recording, planning, and compliance checks.  
+  - **PM2** used to run the process (e.g., pm2 start resthour_service.js --name resthour_service), with **Nginx** reverse proxy (location /resthour/ { ... }).  
 - **Database**:  
   - **MySQL** schema, with new tables for rest-hour logs, violations, tasks, etc.  
   - **Migration Scripts** (SQL or Knex) provided by the vendor, deployed by SafeLanes.  
-  - **Soft Delete & "updatedAt"** fields to handle concurrency with  "last-write-wins" strategy .
+  - **Soft Delete & "updatedAt"** fields to handle concurrency with "last-write-wins" strategy.
 
 #### 4.2 Deployment & Environment
 
@@ -68,7 +68,7 @@ To achieve these objectives, the submodule will be delivered as a **standalone m
 
 - Offline access on vessel side with local DB.
 
-
+```mermaid
 flowchart LR
 subgraph subGraph0["Vessel LAN Network"]
        phone1(["Phone/ Computer"])
@@ -100,10 +100,9 @@ subgraph subGraph5["Vessel 3"]
    localServer2 --> localDB2
    phone3 --> localServer3
    localServer3 --> localDB3
+```
 
- 
-
-### 5\. Detailed Business Workflows
+### 5. Detailed Business Workflows
 
 1. **Vessel User**  
    - Logs daily rest/work hours (Screen 2c).  
@@ -124,14 +123,14 @@ subgraph subGraph5["Vessel 3"]
    - Fleet-wide view of all vessels.  
    - High-level analytics, overall system config (e.g., user roles, advanced reports).
 
-### 6\. Deliverables & Responsibilities
+### 6. Deliverables & Responsibilities
 
 #### 6.1 Core deliverables
 
 1. **Frontend Microfrontend (Angular)**  
    - Complete codebase for rest-hour remote module.  
    - Module Federation config details: exposed components, routing structure.  
-2. **Backend Service** (resthour\_service.js)  
+2. **Backend Service** (resthour_service.js)  
    - Nest.js code with required REST endpoints.  
    - Integration with existing JWT auth.  
    - Clear documentation on environment variables/config.  
@@ -143,7 +142,7 @@ subgraph subGraph5["Vessel 3"]
    - Collaboration on final Module Federation plugin config.  
 5. **Documentation & Basic Support**  
    - Brief deployment instructions for testing (dev/staging) and production.  
-   - Quick reference for SafeLanes admins on how to run or stop resthour\_service.js with PM2.
+   - Quick reference for SafeLanes admins on how to run or stop resthour_service.js with PM2.
 
 #### 6.2 The base app already has:
 
@@ -151,13 +150,13 @@ subgraph subGraph5["Vessel 3"]
    - webpack.config.js for module federation.  
 2. **Server Setup & Deployment**  
    - Configured **Nginx** location blocks for /resthour/.  
-   - Deployed and started the resthour\_service.js using **PM2** across online/offline environments.  
+   - Deployed and started the resthour_service.js using **PM2** across online/offline environments.  
    - Provide all environment variables, e.g., DB credentials, JWT secrets.  
 3. **Database Environment**  
-   - Supplied base dump (e.g., \<clientId\>\_resthour\_db) to build upon.  
+   - Supplied base dump (e.g., <clientId>_resthour_db) to build upon.  
    - Ran the vendor-supplied migration scripts for each environment (production, staging, offline ships, etc.).
 
-### 7\. Key Assumptions & Constraints
+### 7. Key Assumptions & Constraints
 
 1. **JWT Auth**: The existing SafeLanes authentication scheme remains consistent---no rework needed.  
 2. **Offline Environments**: The submodule must function on limited connectivity ships, with local DB usage and a scheduled or on-demand sync approach.  

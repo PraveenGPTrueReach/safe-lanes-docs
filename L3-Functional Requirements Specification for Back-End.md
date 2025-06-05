@@ -1,10 +1,10 @@
 ## L3-FRS-BE: Functional Requirements Specification (FRS) for BE
 
-This document details the specific functions and behaviors that the Back-End (Nest.js \+ MySQL) component must implement to fulfill the SafeLanes Rest Hours business requirements as outlined in higher-level documentation. It focuses on the services, data processing, and interfaces that the Back-End must provide to successfully support both vessel (offline) and office (online) operations.
+This document details the specific functions and behaviors that the Back-End (Nest.js + MySQL) component must implement to fulfill the SafeLanes Rest Hours business requirements as outlined in higher-level documentation. It focuses on the services, data processing, and interfaces that the Back-End must provide to successfully support both vessel (offline) and office (online) operations.
 
 ---
 
-### 1\. Introduction
+### 1. Introduction
 
 The Back-End is responsible for:
 
@@ -16,11 +16,11 @@ The Back-End is responsible for:
 - Ensuring indefinite retention of records in a single MySQL schema with a vesselId column.  
 - Storing any planning-task attachments on the file system, with references in the database.
 
-All requirements trace to the L1-FRS (high-level) documents, referencing sections (e.g., “Implements L1-FRS §2.3”) where applicable.
+All requirements trace to the L1-FRS (high-level) documents, referencing sections (e.g., "Implements L1-FRS §2.3") where applicable.
 
 ---
 
-### 2\. Functional Requirements
+### 2. Functional Requirements
 
 #### 2.1 Role Verification and Access Control
 
@@ -34,7 +34,7 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 • The BE must support full offline functionality on vessel side:  
 – Persist new or updated daily rest-hour records in the local MySQL.  
 – Confirm compliance checks locally.  
-• The BE must always validate users against the locally available SAIL-app’s identity service by obtaining standard JWTs.
+• The BE must always validate users against the locally available SAIL-app's identity service by obtaining standard JWTs.
 
 #### 2.3 Recording and Editing Daily Rest Hours
 
@@ -45,7 +45,7 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 – GET /resthours/:id  
 – PUT /resthours/:id  
 – DELETE /resthours/:id (soft-delete, see §2.8 for retention)  
-• Each record corresponds to a single day per crew member, storing data in 48 discrete columns (block\_1 … block\_48) plus metadata fields (crewId, date, vesselId, updatedAt, etc.).  
+• Each record corresponds to a single day per crew member, storing data in 48 discrete columns (block_1 … block_48) plus metadata fields (crewId, date, vesselId, updatedAt, etc.).  
 • Must apply compliance checks (see §2.5) upon every creation or update, tagging violations as needed.
 
 #### 2.4 Planning and Scheduling Tasks
@@ -64,15 +64,15 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 
 • Implements L1-FRS §2.5  
 • For each updated or newly inserted daily record, the BE must run compliance checks.  
-• Rules are versioned and stored in a DB table (“rule\_set” or similar). Vessels sync new rule-set entries from office as needed.  
-• The BE must attach violation codes to the daily record if thresholds are exceeded (e.g., block\_1…block\_48 show too many “work” segments).  
+• Rules are versioned and stored in a DB table ("rule_set" or similar). Vessels sync new rule-set entries from office as needed.  
+• The BE must attach violation codes to the daily record if thresholds are exceeded (e.g., block_1…block_48 show too many "work" segments).  
 • If OPA is disabled, the BE omits OPA checks and flags.
 
 #### 2.6 Conflict Handling
 
 • Implements L1-FRS §2.6  
-• All data (including compliance-critical fields) follows a simple last-write-wins approach. The record’s updatedAt is compared upon sync or multi-user edits.  
-– If the updatedAt in the DB differs from what the client last saw, the client’s request overwrites the record if the client’s updatedAt is more recent.  
+• All data (including compliance-critical fields) follows a simple last-write-wins approach. The record's updatedAt is compared upon sync or multi-user edits.  
+– If the updatedAt in the DB differs from what the client last saw, the client's request overwrites the record if the client's updatedAt is more recent.  
 – The overwritten version is written to an audit (log) table for indefinite retention.  
 • No additional Admin-driven merges are required. The system always treats the most recent updatedAt as canonical.
 
@@ -86,11 +86,11 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 – timestamp, userId, vesselId  
 • The system does not allow editing or physically removing entries from the audit log. If there is a correction, it is written as a new row referencing the old row.  
 • The system always treats the latest updatedAt as final for all data fields.  
-• Where “delete” endpoints exist, they must perform a soft-delete (isDeleted flag) to preserve the record, fulfilling the indefinite retention mandate.
+• Where "delete" endpoints exist, they must perform a soft-delete (isDeleted flag) to preserve the record, fulfilling the indefinite retention mandate.
 
 ---
 
-### 3\. Component Interfaces
+### 3. Component Interfaces
 
 #### 3.1 Daily Rest-Hour Records
 
@@ -101,7 +101,7 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 • PUT /resthours/:id  
 – Updates a daily record, re-checking compliance.  
 • DELETE /resthours/:id  
-– Perform a soft-delete by marking isDeleted \= true, retaining the record for compliance and historical audit.
+– Perform a soft-delete by marking isDeleted = true, retaining the record for compliance and historical audit.
 
 #### 3.2 Tasks (Planning and Scheduling)
 
@@ -112,7 +112,7 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 • PUT /tasks/:id  
 – Updates the task timing/crew assignment; last-write-wins applies for non-critical fields.  
 • DELETE /tasks/:id  
-– Marks the task as deleted (e.g., setting isDeleted \= true) but keeps it in the database to satisfy indefinite retention.
+– Marks the task as deleted (e.g., setting isDeleted = true) but keeps it in the database to satisfy indefinite retention.
 
 #### 3.3 Authentication & Session Management
 
@@ -120,16 +120,16 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 
 ---
 
-### 4\. Data Requirements
+### 4. Data Requirements
 
 #### 4.1 Daily Rest-Hour Schema
 
 • One table per environment (vessel or office) with columns:  
 – id (PK), vesselId (FK to identify which vessel), crewId, date (YYYY-MM-DD),  
-– block\_1 … block\_48 (varchar or integer representing rest/work/other states),  
+– block_1 … block_48 (varchar or integer representing rest/work/other states),  
 – violationCodes (text or JSON if multiple codes apply),  
 – updatedAt (timestamp in UTC), createdAt (timestamp),  
-– localOffset (string, e.g. “+03:00”),  
+– localOffset (string, e.g. "+03:00"),  
 – isDeleted (boolean, default false), used to mark a record as soft-deleted.
 
 #### 4.2 Task Schema
@@ -141,14 +141,14 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 
 #### 4.3 Rule Sets and Versions
 
-• A “rule\_sets” table to store MLC/STCW/OPA parameters (e.g., max daily work hours).  
+• A "rule_sets" table to store MLC/STCW/OPA parameters (e.g., max daily work hours).  
 • version (int), ruleType (string), thresholds (JSON), publishedAt.  
 • The vessel environment downloads updated rows for new or modified rules. During record creation or updates, the system references the newest matching rule set in the local DB.
 
 #### 4.4 Audit Log Schema
 
-• One table (e.g., “audit\_log”) containing:  
-– logId (PK), referenceTable (e.g., “resthours”), referenceId, oldValue (text/JSON), newValue (text/JSON), userId, updatedAt, vesselId.  
+• One table (e.g., "audit_log") containing:  
+– logId (PK), referenceTable (e.g., "resthours"), referenceId, oldValue (text/JSON), newValue (text/JSON), userId, updatedAt, vesselId.  
 • No delete or update actions permitted on this table (immutable).  
 • Overwrites appear as new rows,.
 
@@ -160,7 +160,7 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 
 ---
 
-### 5\. Validation Rules
+### 5. Validation Rules
 
 #### 5.1 Data Acceptance
 
@@ -175,7 +175,7 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 • On each submission or update:  
 – The BE reads the latest rule set from local DB.  
 – Summarizes total rest vs. work hours and checks thresholds (MLC, STCW, OPA).  
-– If violations are found, store them in violationCodes, e.g. \[“STCW-1”, “MLC-2”\].  
+– If violations are found, store them in violationCodes, e.g. ["STCW-1", "MLC-2"].  
 – For OPA, skip or include checks depending on whether OPA is enabled.
 
 #### 5.3 Conflict Resolution for Compliance-Critical Data
@@ -193,7 +193,7 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 
 ### Final Remarks
 
-This L3-FRS-BE document defines the Nest.js \+ MySQL Back-End requirements for the SafeLanes Rest Hours solution while ensuring alignment with the higher-level documents:
+This L3-FRS-BE document defines the Nest.js + MySQL Back-End requirements for the SafeLanes Rest Hours solution while ensuring alignment with the higher-level documents:
 
 - Use discrete columns for 48 half-hour blocks, storing updatedAt.  
 - Provide endpoints that enable both vessel offline operation and office aggregation.  
@@ -203,4 +203,4 @@ This L3-FRS-BE document defines the Nest.js \+ MySQL Back-End requirements for t
 - Use a simple file system approach for attachments, referencing them in the DB.  
 - Where deletes exist, apply soft-delete rather than physical removal to satisfy indefinite retention.
 
-These features align with the project’s current scale (30 crew per vessel, up to \~100 office users, offline periods up to 14 days) while ensuring indefinite data retention.  
+These features align with the project's current scale (30 crew per vessel, up to ~100 office users, offline periods up to 14 days) while ensuring indefinite data retention.  

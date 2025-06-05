@@ -2,19 +2,19 @@
 
 ---
 
-### 1\. Introduction
+### 1. Introduction
 
 The front-end (FE) of the SafeLanes Rest Hours solution is an Angular 16 microfrontend that runs in below environment:
 
-1. The Vessel environment will be serving a locally bundled version, integrating with the “Sail App” shell (via Module Federation or a minimal fallback wrapper).
+1. The Vessel environment will be serving a locally bundled version, integrating with the "Sail App" shell (via Module Federation or a minimal fallback wrapper).
 
 Because maritime vessels can be offline for up to 14 days, the FE must ensure essential functionality remains available locally, and no file uploads or advanced caching while offline. 
 
-This specification confines itself to front-end functionality and does not duplicate back-end requirements. All references to endpoints and data are solely from the FE’s perspective, describing how the interface calls or receives data from the (already designed) back-end REST APIs.
+This specification confines itself to front-end functionality and does not duplicate back-end requirements. All references to endpoints and data are solely from the FE's perspective, describing how the interface calls or receives data from the (already designed) back-end REST APIs.
 
 ---
 
-### 2\. Scope
+### 2. Scope
 
 1. Provide an Angular 18.2.0 microfrontend that the vessel crew and office users can access.  
 2. Support day-level rest-hour entries, compliance checking, conflict resolution, minimal planning tasks, and read-only dashboards for external auditors.  
@@ -25,7 +25,7 @@ The front-end does not directly integrate with external third-party services, as
 
 ---
 
-### 3\. Functional Requirements
+### 3. Functional Requirements
 
 #### 3.1 User Authentication & Role Management
 
@@ -47,22 +47,22 @@ The front-end does not directly integrate with external third-party services, as
 2. The FE shall:  
    - Continue reading/writing data via local vessel endpoints (e.g., POST /resthours, GET /resthours).  
 3. The FE must show an alert if a version mismatch is detected (e.g., older front-end vs. updated back-end) but still allow usage while offline.  
-4. The FE should not store large data sets or file attachments in the browser for offline usage. All data is saved directly to the vessel’s local server.  
+4. The FE should not store large data sets or file attachments in the browser for offline usage. All data is saved directly to the vessel's local server.  
 5. Endpoints and Methods:  
-   - All normal REST calls (GET, POST, PUT) to the local Nest.js server (e.g., /resthours, /planning) remain reachable on the ship’s LAN.
+   - All normal REST calls (GET, POST, PUT) to the local Nest.js server (e.g., /resthours, /planning) remain reachable on the ship's LAN.
 
 #### 3.3 Daily Rest Hour Logging
 
 (Implements L1-FRS §§2.3, 2.5)
 
-1. The FE must provide a user interface for entering up to 48 half-hour blocks per day, capturing “work” or “rest” statuses.  
-2. When the user edits/saves daily logs, the FE must call the vessel’s back-end, e.g.:  
+1. The FE must provide a user interface for entering up to 48 half-hour blocks per day, capturing "work" or "rest" statuses.  
+2. When the user edits/saves daily logs, the FE must call the vessel's back-end, e.g.:  
    - POST /resthours/daily  (for a new entry)  
-   - PUT /resthours/daily/{id} (to update an existing day’s record)  
+   - PUT /resthours/daily/{id} (to update an existing day's record)  
 3. The FE shall retrieve existing logs for a specific date or date range:  
    - GET /resthours/daily?date=YYYY-MM-DD  
 4. After saving, the FE should receive violation or warning flags from the back-end if thresholds are exceeded. Final authoritative results still come from the back-end.  
-5. The FE must allow editing any daily-resthours-log frompast days if the user’s role permits.  
+5. The FE must allow editing any daily-resthours-log from past days if the user's role permits.  
 6. Endpoints and Methods:  
    - GET /resthours/daily?date=  
    - POST /resthours/daily  
@@ -80,7 +80,7 @@ The front-end does not directly integrate with external third-party services, as
 3. Attachments are excluded from offline uploads in the current scope. The FE does not implement partial or re-try upload logic to keep complexity low for this project scale. If a user attempts to upload a file while offline, the system will prompt them to wait until connectivity is restored.  
    A formal change request is in progress to remove or revise partial or re-try logic from the L1-FRS, ensuring alignment with this front-end design that disables offline attachments for now.  
 4. Endpoints and Methods:  
-   - GET /planning?startDate=…\&endDate=…  
+   - GET /planning?startDate=…&endDate=…  
    - POST /planning  
    - PUT /planning/{taskId}  
 
@@ -107,7 +107,7 @@ The front-end does not directly integrate with external third-party services, as
 
 ---
 
-### 4\. Component Interfaces
+### 4. Component Interfaces
 
 1. **Primary Data Exchange**  
      
@@ -124,23 +124,23 @@ The front-end does not directly integrate with external third-party services, as
      
 3. **Integration with Sail App**  
      
-   - By default, the FE integrates with the existing SafeLanes “Sail App” shell via Module Federation or a fallback wrapper (iframe/web component).  
+   - By default, the FE integrates with the existing SafeLanes "Sail App" shell via Module Federation or a fallback wrapper (iframe/web component).  
    - A mild runtime check attempts direct Federation if the host is Angular 18.2.0; otherwise, it uses the fallback component.
 
 ---
 
-### 5\. Data Requirements
+### 5. Data Requirements
 
 1. **Daily Rest-Hour Records**  
      
    - The FE sends and receives a structured payload of 48 half-hour blocks, plus a date, user ID, total rest/work hours, and violation flags.  
-   - For each half-hour block, the FE uses enumerated values (“Work,” “Rest,” “Planned,” etc.).
+   - For each half-hour block, the FE uses enumerated values ("Work," "Rest," "Planned," etc.).
 
    
 
 2. **Conflict Overwrites**  
      
-   - User’s inputs are not needed for conflict resolution. Simple last write wins rule is followed.
+   - User's inputs are not needed for conflict resolution. Simple last write wins rule is followed.
 
 3. **Planning Data**  
      
@@ -151,7 +151,7 @@ The front-end does not directly integrate with external third-party services, as
 
 4. **Local Storage**  
      
-   - The FE does not store significant data in IndexedDB or localStorage. All rest-hour and planning data is stored in the vessel’s local MySQL (accessed via the Nest.js API) or the office MySQL.
+   - The FE does not store significant data in IndexedDB or localStorage. All rest-hour and planning data is stored in the vessel's local MySQL (accessed via the Nest.js API) or the office MySQL.
 
    
 
@@ -161,7 +161,7 @@ The front-end does not directly integrate with external third-party services, as
 
 ---
 
-### 6\. Validation Rules
+### 6. Validation Rules
 
 1. **Real-Time Violation Checks**  
      
@@ -172,7 +172,7 @@ The front-end does not directly integrate with external third-party services, as
 
 2. **Day-Bound Constraints**  
      
-   - Each FE entry form must restrict total “worked” hours to ≤24 for a single calendar day (Implements L1-FRS §§5.1 in spirit). 
+   - Each FE entry form must restrict total "worked" hours to ≤24 for a single calendar day (Implements L1-FRS §§5.1 in spirit). 
 
    
 
@@ -188,15 +188,15 @@ The front-end does not directly integrate with external third-party services, as
 
 ---
 
-### 7\. Summary & Future Considerations
+### 7. Summary & Future Considerations
 
-This front-end is designed for moderate scale (\~30 vessel users, up to \~100 office users). It prioritizes clarity and offline viability over advanced offline caching or multi-day data entry forms.  
-Once the hosting “Sail App” is officially upgraded to Angular 18.2.0, the fallback wrapper approach is removed, simplifying module federation integration.  
+This front-end is designed for moderate scale (~30 vessel users, up to ~100 office users). It prioritizes clarity and offline viability over advanced offline caching or multi-day data entry forms.  
+Once the hosting "Sail App" is officially upgraded to Angular 18.2.0, the fallback wrapper approach is removed, simplifying module federation integration.  
 If support for advanced offline file attachments or multi-day bulk editing is requested in the future, the code can be extended. For now, the FE meets the documented user flows,, and day-level data entry.
 
 #### 7.1 Accessibility
 
-Given the system’s usage scenarios, the FE should adhere to basic accessibility guidelines (e.g., WCAG 2.1 AA) as much as feasible for the current scale. Additional accessibility enhancements can be introduced later without overcomplicating the initial scope.
+Given the system's usage scenarios, the FE should adhere to basic accessibility guidelines (e.g., WCAG 2.1 AA) as much as feasible for the current scale. Additional accessibility enhancements can be introduced later without overcomplicating the initial scope.
 
 #### 7.2 Alignment with L1-HLD
 
@@ -205,7 +205,7 @@ Additionally, a formal change request is being raised to update L1-FRS regarding
 
 ---
 
-### 8\. References
+### 8. References
 
 - [L1-FRS Document (High-Level Requirements)](http://../L1-FRS) – for overall system and business requirements.  
 - [L1-HLD Document](http://../L1-HLD) – for high-level architecture context (to be updated for planning/scheduling).  

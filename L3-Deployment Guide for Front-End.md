@@ -4,17 +4,17 @@ This document provides a step-by-step guide for deploying the SafeLanes Rest Hou
 
 ---
 
-### 1\. Introduction
+### 1. Introduction
 
 The Rest Hours FE is an Angular 18.2.0application that:  
 • Runs on vessels in offline mode, served by the local Nest.js backend and Nginx.  
-• Loads dynamically via Module Federation in the SafeLanes “Sail App” in the office environment.
+• Loads dynamically via Module Federation in the SafeLanes "Sail App" in the office environment.
 
-A single build artifact is created, using environment-based runtime checks to adapt to each scenario. This matches the current moderate project scale (up to \~30 vessel users, \~100 office users) without overengineering.
+A single build artifact is created, using environment-based runtime checks to adapt to each scenario. This matches the current moderate project scale (up to ~30 vessel users, ~100 office users) without overengineering.
 
 ---
 
-### 2\. Prerequisites
+### 2. Prerequisites
 
 Before deploying, ensure the following:
 
@@ -39,7 +39,7 @@ Before deploying, ensure the following:
 
 ---
 
-### 3\. Installation Steps
+### 3. Installation Steps
 
 Below is a general outline for building and installing the FE in both vessel and office environments.
 
@@ -53,88 +53,80 @@ Below is a general outline for building and installing the FE in both vessel and
    • npm run test (executes unit tests)  
    • npm run build  
      
-   The last command typically produces a “dist/fe” folder containing the production-ready files.  
+   The last command typically produces a "dist/fe" folder containing the production-ready files.  
      
 3. Confirm the build was successful and no critical errors were reported.
 
-Note: Per Clarification \#1, we use a single build artifact that includes runtime checks for identifying “vessel vs. office” usage.
+Note: Per Clarification #1, we use a single build artifact that includes runtime checks for identifying "vessel vs. office" usage.
 
 #### 3.2 Deployment to Vessel Environment
 
 1. Copy the build output (e.g., dist/fe) to the vessel server. Common practice is to use an SSH-based sync tool (scp, rsync) or a script-run approach.  
 2. Place the build files in a directory, for instance:  
-   /home/safelanes/resthours\_fe/current  
+   /home/safelanes/resthours_fe/current  
 3. Ensure PM2 and Nest.js remain operational. The FE files will be served by Nginx alongside the Nest.js API.
 
 At this point, the vessel has a local offline copy. If the vessel is offline, these steps must be performed manually (e.g., from a USB drive), referencing the same folder structure.
 
 #### 3.3 Deployment to Office Environment
 
-1. Copy or upload the same dist/fe build to the office server that hosts the “Sail App Shell.”  
+1. Copy or upload the same dist/fe build to the office server that hosts the "Sail App Shell."  
 2. The microfrontend typically exposes a remoteEntry.js file within dist/fe.  
-3. Configure the Sail App’s module-federation configuration to reference the FE’s remoteEntry file. Usually this means adjusting the Sail App’s webpack config or environment to point to “[https://office.server/fe/remoteEntry.js”](https://office.server/fe/remoteEntry.js”).  
+3. Configure the Sail App's module-federation configuration to reference the FE's remoteEntry file. Usually this means adjusting the Sail App's webpack config or environment to point to "https://office.server/fe/remoteEntry.js".  
 4. Reload or redeploy the Sail App so it recognizes the newly updated microfrontend. Confirm the remoteEntry is accessible to connected office browsers.
 
 ---
 
-### 4\. Configuration Steps
+### 4. Configuration Steps
 
 In both environments, minimal runtime configuration ensures the FE knows which backend base URL to call and whether it should function as a local fallback.
 
 #### 4.1 Environment Variables & Files
 
-• The FE can read a base API URL (like VESSEL\_API\_URL or OFFICE\_API\_URL) at runtime.  
-• Typically, environment.\*.ts files or a small JavaScript config snippet in index.html can hold these references.  
-• For the vessel, point to the local Nest.js server (e.g., [http://vessel.local:3000/](http://vessel.local:3000/)).  
-• For the office, point to the central host’s API (e.g., [https://office.server/api/](https://office.server/api/)).
+• The FE can read a base API URL (like VESSEL_API_URL or OFFICE_API_URL) at runtime.  
+• Typically, environment.*.ts files or a small JavaScript config snippet in index.html can hold these references.  
+• For the vessel, point to the local Nest.js server (e.g., http://vessel.local:3000/).  
+• For the office, point to the central host's API (e.g., https://office.server/api/).
 
 #### 4.2 Nginx Configuration
 
 • Use a single Nginx server block that:  
-• Serves the Angular FE files at a path such as /resthours\_fe/.  
-• Proxies API requests (e.g., /api/) to Nest.js on port 3000\.  
+• Serves the Angular FE files at a path such as /resthours_fe/.  
+• Proxies API requests (e.g., /api/) to Nest.js on port 3000.  
 • Example snippet (vessel side):
 
 server {
-
   listen 80;
+  server_name vessel.local;
 
-  server\_name vessel.local;
-
-  location /resthours\_fe/ {
-
-    root /home/safelanes/resthours\_fe/current;
-
-    try\_files $uri $uri/ /resthours\_fe/index.html;
-
+  location /resthours_fe/ {
+    root /home/safelanes/resthours_fe/current;
+    try_files $uri $uri/ /resthours_fe/index.html;
   }
 
   location /api/ {
-
-    proxy\_pass http://127.0.0.1:3000/;
-
+    proxy_pass http://127.0.0.1:3000/;
   }
-
 }
 
-• This approach keeps the offline fallback (the copied dist folder) accessible under /resthours\_fe/. The same dist folder also includes remoteEntry.js if used in an office scenario.
+• This approach keeps the offline fallback (the copied dist folder) accessible under /resthours_fe/. The same dist folder also includes remoteEntry.js if used in an office scenario.
 
 #### 4.3 Security & HTTPS
 
 • In production, we recommend enabling HTTPS with a valid certificate.  
 • Self-signed or internal CAs may be used on vessels.  
-• Update the Nginx config’s listen directives to 443 and supply ssl\_certificate / ssl\_certificate\_key paths.
+• Update the Nginx config's listen directives to 443 and supply ssl_certificate / ssl_certificate_key paths.
 
 ---
 
-### 5\. Verification Procedures
+### 5. Verification Procedures
 
 Use these checks after deployment to confirm the FE is functioning properly.
 
 1. Open a browser on the same network (vessel or office).  
 2. Navigate to:  
-   - Vessel: [http://vessel.local/resthours\_fe/](http://vessel.local/resthours_fe/) (or https if configured)  
-   - Office: The Sail App URL that references the new microfrontend. For example, [https://office.server/sail/\#/resthours](https://office.server/sail/#/resthours)  
+   - Vessel: http://vessel.local/resthours_fe/ (or https if configured)  
+   - Office: The Sail App URL that references the new microfrontend. For example, https://office.server/sail/#/resthours  
 3. Log in. Confirm that the FE loads without errors and that you can access daily logs or relevant screens.  
 4. If offline on the vessel, confirm that the FE still loads from the local fallback. Verify that the Nginx logs show local file serving (no external requests).  
 5. Make a test rest-hour entry or fetch data from the local or office Nest.js. Ensure read/write operations succeed without error.  
@@ -142,21 +134,21 @@ Use these checks after deployment to confirm the FE is functioning properly.
 
 ---
 
-### 6\. Rollback Procedures
+### 6. Rollback Procedures
 
 Because vessels may lack consistent connectivity, it is critical to have a local rollback plan if a newly deployed build is unsuccessful.
 
-1. Maintain a “previous-version” folder on the vessel server (e.g., /home/safelanes/resthours\_fe/prev).  
-2. If the new build fails, edit Nginx’s configuration (or a symlink) to point back to the “previous-version” folder, then reload Nginx:  
+1. Maintain a "previous-version" folder on the vessel server (e.g., /home/safelanes/resthours_fe/prev).  
+2. If the new build fails, edit Nginx's configuration (or a symlink) to point back to the "previous-version" folder, then reload Nginx:  
      
-   sudo nginx \-s reload  
+   sudo nginx -s reload  
      
 3. Confirm the older version is now served.  
 4. (Optional) If connectivity is available, a stable version can be re-downloaded from a central repository or artifact storage in the office. Place it in the rollback folder, then switch Nginx to that version.
 
 ---
 
-### 7\. Deployment Scripts & CI/CD Pipeline Details
+### 7. Deployment Scripts & CI/CD Pipeline Details
 
 #### 7.1 Recommended Steps in CI
 
@@ -168,7 +160,7 @@ Because vessels may lack consistent connectivity, it is critical to have a local
 3. Build & Package:  
    - npm run build  
 4. Artifact Versioning:  
-   - Rename or tag the dist/fe folder with a version (e.g., fe\_1.2.3).  
+   - Rename or tag the dist/fe folder with a version (e.g., fe_1.2.3).  
    - Store the artifact in a local or remote repository (GitLab, Nexus, or a file share).
 
 #### 7.2 Office Automated Deployment
@@ -184,7 +176,7 @@ Because vessels may lack consistent connectivity, it is critical to have a local
 #### 7.3 Vessel Manual Deployment
 
 • Office or IT staff provide the new artifact to the vessel via a secure channel (e.g., scp, portable media).  
-• Vessel personnel place it into /home/safelanes/resthours\_fe/current, test locally, and reload Nginx or PM2 if necessary.  
+• Vessel personnel place it into /home/safelanes/resthours_fe/current, test locally, and reload Nginx or PM2 if necessary.  
 • Keep the previous folder for immediate rollback on the vessel.
 
 #### 7.4 Version Control & Angular Library Mismatches
@@ -194,7 +186,7 @@ Because vessels may lack consistent connectivity, it is critical to have a local
 
 ---
 
-### 8\. Final Remarks
+### 8. Final Remarks
 
 By following these steps, the SafeLanes Rest Hours FE can be deployed seamlessly in both vessel and office environments. A single Angular 18.2.0 artifact, served by Nginx under PM2 with Module Federation. The manual rollback process on vessels and minimal CI/CD pipeline integration ensures an efficient, controlled deployment aligned with the moderate scale of the project.
 
