@@ -2,7 +2,7 @@
 
 ## 1. Business Overview
 
-SafeLanes' Rest Hours Submodule addresses maritime rest-hour compliance (MLC, STCW, OPA) by capturing crew work/rest logs, detecting violations, logging non-conformities (NCs), and providing multi-level analytics (vessel and office). The solution runs partially offline on vessels and synchronizes with an office server when connectivity is available. It extends the existing SafeLanes "Sail App" with modular front-end integration (Module Federation using Angular 18.2.0 for more robust support) and a standalone Nest.js back-end microservice.
+SafeLanes' Rest Hours Submodule addresses maritime rest-hour compliance (MLC, STCW, OPA) by capturing crew work/rest logs, detecting violations, logging non-conformities (NCs), and providing multi-level analytics (vessel and office). The solution runs autonomously on vessels when disconnected from the office and synchronizes with an office database when connectivity is available. It extends the existing SafeLanes "Sail App" with modular front-end integration (Module Federation using Angular 18.2.0 for more robust support) and a standalone Nest.js back-end microservice.
 
 Additionally, certain external or auditor-type users may be granted read-only access for compliance reviews, if configured in the SafeLanes RBAC settings. For clarity, references throughout other documents to "SAIL login" and "SafeLanes login" are synonymous, referring to the same credential and authentication system.
 
@@ -10,7 +10,7 @@ Additionally, certain external or auditor-type users may be granted read-only ac
 
 ## 2. Key Entities
 
-- **Vessel**: Hosts local server + local DB (MySQL). Runs the Rest Hours service offline.  
+- **Vessel**: Hosts local server + local DB (MySQL). Runs the Rest Hours service autonomously.  
 - **Crew**: Have role-based permissions (User, Admin, Super Admin) to enter/approve hours.  
 - **Office**: Primary location with aggregated data usage, advanced analytics, and managerial oversight. Roles include Office User, Office Admin, and Office Super Admin.  
 - **Non-Conformities & Violations**: System-detected indicators of rest-hour breaches. Handled both at vessel and office levels.  
@@ -58,7 +58,7 @@ There is no direct financial flow in this module. The system primarily handles o
 
 - **On-Prem Vessel Servers**: Each vessel runs the Nest.js service on a local server (Linux or Windows) with MySQL. Nginx and PM2 handle application processes.  
 - **Office Server**: Another Nest.js instance (the same codebase) and MySQL run on on-prem or hosted hardware (16 GB RAM, 4 cores).  
-- **Offline Microfrontend Loading**: During isolated operation, each vessel serves the Rest Hours microfrontend from its local server, ensuring the UI remains accessible. A local copy of the compiled microfrontend is bundled in the vessel deployment package, preventing any dependence on external URLs.  
+- **Microfrontend Loading**: Always each vessel serves the Rest Hours microfrontend from its local server, ensuring the UI remains accessible. A local copy of the compiled microfrontend is bundled in the vessel deployment package, preventing any dependence on external URLs.  
 - **Development Stack**:  
   - Angular microfrontend (version 18.2.0) with Module Federation support.  
   - Nest.js (TypeScript) for back-end logic.  
