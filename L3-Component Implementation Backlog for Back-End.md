@@ -7,7 +7,7 @@ This document provides a granular list of implementation items for the Back-End 
 • Description: Create the Nest.js project scaffold with recommended module structure (e.g., RestHoursModule, TasksModule, AuthModule, SyncModule). Configure TypeORM (or equivalent) for MySQL connectivity.
 • Technical Requirements:
 
-Use environment variables to switch between vessel (offline) and office (online) modes (L3-LLD-BE §2).
+Use environment variables to switch between vessel (autonomous) and office (online) modes (L3-LLD-BE §2).
 Include initial database connection config.
 Additionally, ensure alignment with L3-TSD for overall technology constraints (e.g., Nest.js version, MySQL version, and no Docker usage).
 • Acceptance Criteria:
@@ -18,7 +18,7 @@ Docker is not used; PM2 + Nginx approach is documented.
 • Effort Estimate: 2 points
 • Priority: High
 1.2 Environment Configuration for Vessel vs. Office
-• Description: Implement environment-based config to differentiate vessel (offline) from office (online) settings (DB_HOST, mode='vessel' vs. 'office').
+• Description: Implement environment-based config to differentiate vessel (autonomous) from office (online) settings (DB_HOST, mode='vessel' vs. 'office').
 • Technical Requirements:
 
 Distinct .env files or environment variables for local vessel deployment vs. office server.

@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-This document specifies the non-functional requirements for the Back-End (BE) component—the Nest.js + MySQL service supporting SafeLanes' Rest Hours solution. It outlines performance, security, usability, reliability, compliance, and environmental constraints pertinent to the Back-End at both the vessel (offline) and office (online) sites. The scope of these requirements focuses on current usage levels (up to ~30 concurrent vessel users, ~100 office users) and moderate data transaction rates, aligning with the clarifications provided by the client.
+This document specifies the non-functional requirements for the Back-End (BE) component—the Nest.js + MySQL service supporting SafeLanes' Rest Hours solution. It outlines performance, security, usability, reliability, compliance, and environmental constraints pertinent to the Back-End at both the vessel (autonomous) and office (online) sites. The scope of these requirements focuses on current usage levels (up to ~30 concurrent vessel users, ~100 office users) and moderate data transaction rates, aligning with the clarifications provided by the client.
 
 ## 2. Dependencies and Requirements
 

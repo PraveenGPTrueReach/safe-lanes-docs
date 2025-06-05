@@ -1,6 +1,6 @@
 ## L3-FRS-BE: Functional Requirements Specification (FRS) for BE
 
-This document details the specific functions and behaviors that the Back-End (Nest.js + MySQL) component must implement to fulfill the SafeLanes Rest Hours business requirements as outlined in higher-level documentation. It focuses on the services, data processing, and interfaces that the Back-End must provide to successfully support both vessel (offline) and office (online) operations.
+This document details the specific functions and behaviors that the Back-End (Nest.js + MySQL) component must implement to fulfill the SafeLanes Rest Hours business requirements as outlined in higher-level documentation. It focuses on the services, data processing, and interfaces that the Back-End must provide to successfully support both vessel and office operations.
 
 ---
 
@@ -10,7 +10,7 @@ The Back-End is responsible for:
 
 - Storing and managing rest-hour data (48 half-hour blocks) for each crew member per day.  
 - Implementing business rules for maritime compliance checks (MLC, STCW, and OPA if enabled).  
-- Handling offline operations on vessels (local MySQL DB,).  
+- Handling autonomous operations on vessels when disconnected from office (local MySQL DB,).  
 - Providing endpoints for creating, reading, updating, records,.  
 - Maintaining an audit log of overwritten data.  
 - Ensuring indefinite retention of records in a single MySQL schema with a vesselId column.  
@@ -196,7 +196,7 @@ All requirements trace to the L1-FRS (high-level) documents, referencing section
 This L3-FRS-BE document defines the Nest.js + MySQL Back-End requirements for the SafeLanes Rest Hours solution while ensuring alignment with the higher-level documents:
 
 - Use discrete columns for 48 half-hour blocks, storing updatedAt.  
-- Provide endpoints that enable both vessel offline operation and office aggregation.  
+- Provide endpoints that enable both Vessel autonomous operation and office aggregation.  
 - Maintain a robust audit log with indefinite retention.  
 - Keep compliance checks straightforward, run on each record update.  
 - Store rule sets in the database for easy offline replication.  

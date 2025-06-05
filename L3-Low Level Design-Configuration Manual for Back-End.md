@@ -130,7 +130,7 @@ Additionally, see L2-LLD-IC for more detailed interface definitions and configur
 ### 5.1 Database Integration
 
 - Ensure MySQL is running and accessible on the configured DB_HOST and DB_PORT.  
-- For offline vessel scenarios, the local MySQL server must start at system boot.  
+- For autonomous vessel scenarios, the local MySQL server must start at system boot.  
 - On the office side, regular backups to a central backup system are recommended. 
 
 ### 5.3 Identity Service 

@@ -46,8 +46,8 @@ The front-end does not directly integrate with external third-party services, as
 1. The FE must load a bundled static version of the Angular app from the local Nest.js server on the vessel   
 2. The FE shall:  
    - Continue reading/writing data via local vessel endpoints (e.g., POST /resthours, GET /resthours).  
-3. The FE must show an alert if a version mismatch is detected (e.g., older front-end vs. updated back-end) but still allow usage while offline.  
-4. The FE should not store large data sets or file attachments in the browser for offline usage. All data is saved directly to the vessel's local server.  
+3. The FE must show an alert if a version mismatch is detected (e.g., older front-end vs. updated back-end) but still allow usage while the vessel is disconnected from the office
+4. The FE should not store large data sets or file attachments in the browser and should not do any function when not connected to the backend on vessel's local backend. All data is saved directly to the vessel's local server.  
 5. Endpoints and Methods:  
    - All normal REST calls (GET, POST, PUT) to the local Nest.js server (e.g., /resthours, /planning) remain reachable on the ship's LAN.
 

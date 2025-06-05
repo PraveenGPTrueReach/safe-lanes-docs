@@ -8,7 +8,7 @@
 - Multiple offline edits can occur on the same day for rest-hour compliance data, For all fields within the same daily record, the last-write-wins approach still applies.  
 - This design meets current scaling needs while remaining simpler to implement and maintain than a more granular schema.
 
-### Decision 2: Local Microfrontend for Offline Vessels
+### Decision 2: Local Microfrontend for autonomous vessels
 
 - Each vessel retains a locally bundled copy of the microfrontend for use.  
 - To mitigate critical version mismatches, we enforce semantic version checks between the bundled UI and the back-end API, blocking usage if versions are incompatible.  

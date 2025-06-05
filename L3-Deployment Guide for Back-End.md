@@ -13,7 +13,7 @@ The Back-End (BE) is a Nest.js application connected to a MySQL database, deploy
 
 Key points:
 
-- Supports offline operation on vessels, with local DB.  
+- Supports autonomous operation on vessels, with local DB.  
 - No containerization (Docker) is used. Instead, a script-based approach with PM2 and Nginx is employed.  
 - All references to other solution components (e.g., Angular front-end, microfrontend host environment) are excluded here. This guide covers only the Nest.js BE deployment.
 
@@ -338,7 +338,7 @@ curl -I http://localhost:3000/health
 
 ## 8. Additional Deployment Notes
 
-### 8.1 Offline Vessel Updates
+### 8.1 autonomous vessel Updates
 
 - If the vessel is offline for >14 days, coordinate with onboard admins to apply the new code package via secure USB.  
 - Migrations can be run offline. Ensure you keep consistent environment variable files to avoid mismatch or missing secrets.

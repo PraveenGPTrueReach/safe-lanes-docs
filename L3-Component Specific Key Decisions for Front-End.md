@@ -4,9 +4,9 @@
 
 ### Decision #1: Local Static Bundle for Offline
 
-All vessel environments will receive a prepackaged Angular 18.2.0 bundle served entirely from the local server when offline.
+All vessel environments will receive a prepackaged Angular 18.2.0 bundle served entirely from the local server.
 Updates to this bundle occur manually during scheduled port calls, ensuring version alignment with the vessel's Nest.js back-end.
-No service-worker-based caching will be used to avoid complexity in offline mode.
+"No service-worker-based caching will be used to avoid complexity when the frontend is not connected to the backend
 (Ref. L1-HLD - "Offline Fallback Bundling on Vessels" and L2-LLD-IC - "Generic Interaction Flow (§2.1)")
 
 ### Decision #2: Continued Module Federation

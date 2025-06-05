@@ -31,7 +31,7 @@ These screens are accessed by vessel users, vessel admins, and vessel super admi
 
 #### V2.0a – Vessel Recording Summary
 
-- **Platform**: Vessel Offline-Capable Web  
+- **Platform**: Vessel autonomous-Capable Web  
 - **Primary User Roles/Access Levels**: Vessel Admin (for department oversight), Vessel Super Admin (for all crew)  
 - **Key Features/Purpose**: Provides a summarized overview of recording completeness or daily logs for the vessel (or department). It supplements V2.0b and V2.0c by showing how many days are recorded, flagged with violations, or incomplete.  
 - **Critical Data Elements**: Aggregated status of daily logs per user or department, highlight of any missing submissions.  
@@ -42,7 +42,7 @@ These screens are accessed by vessel users, vessel admins, and vessel super admi
 
 #### V2.0b – Vessel Overview (Recording Status)
 
-- **Platform**: Vessel Offline-Capable Web  
+- **Platform**: Vessel autonomous-Capable Web  
 - **Primary User Roles/Access Levels**: Vessel Admin, Vessel Super Admin, and Vessel User (for personal data).  
 - **Key Features/Purpose**: Shows a list of all crew under given departments, their recording status, violation/NC counts, and predicted issues.  
 - **Critical Data Elements**: Overview of daily logs, crew roster, violation counts, predicted NC data.  
@@ -62,7 +62,7 @@ These screens are accessed by vessel users, vessel admins, and vessel super admi
 
 #### V2.0c – Daily Recording Form
 
-- **Platform**: Vessel Offline-Capable Web  
+- **Platform**: Vessel autonomous-Capable Web  
 - **Primary User Roles/Access Levels**: Vessel User (own data only), Vessel Admin, Vessel Super Admin  
 - **Key Features/Purpose**: Time-based rest/work logging, indicating potential immediate violations or planned tasks overlay.  
 - **Critical Data Elements**: Daily rest/work segments, violation indicators, optional comments.  
@@ -72,7 +72,7 @@ These screens are accessed by vessel users, vessel admins, and vessel super admi
 
 #### V3.0a – Planning (Fixed Tasks)
 
-- **Platform**: Vessel Offline-Capable Web  
+- **Platform**: Vessel autonomous-Capable Web  
 - **Primary User Roles/Access Levels**: Vessel Admin, Vessel Super Admin  
 - **Key Features/Purpose**: Allows creation/editing of routine planned tasks or schedules (e.g., watch, daywork), marked as "planned" for confirmation.  
 - **Critical Data Elements**: Planned tasks with basic scheduling, typical environment ("at sea" or "in port").  
@@ -82,7 +82,7 @@ These screens are accessed by vessel users, vessel admins, and vessel super admi
 
 #### V3.0b – Planning (Variable Tasks)
 
-- **Platform**: Vessel Offline-Capable Web  
+- **Platform**: Vessel autonomous-Capable Web  
 - **Primary User Roles/Access Levels**: Vessel Admin, Vessel Super Admin  
 - **Key Features/Purpose**: Logs ad-hoc tasks with start/end times, assigned crew, attachments if needed. Functionality to Advance or Retard by 1 day  
 - **Critical Data Elements**: Additional tasks beyond fixed schedules, with basic oversight for assigned personnel.  
@@ -196,12 +196,12 @@ The table below summarizes navigation flows among these key screens. Login, logo
 | :---- | :---- | :---- | :---- | :---- |
 | V2.0a | Vessel (Offline-Capable) | SAIL App Menu or side nav | V2.0b, V2.0c (for deeper edits) | Recording summary data for departments or entire vessel |
 | V1.0a | Vessel (Offline-Capable) | SAIL App Main Menu | V1.1a, V2.0b | Aggregated metrics (watchlist, violations, etc.) |
-| V1.1a (Drill-Down) | Vessel (Offline) | V1.0a (click metrics) | Back to V1.0a | Detailed list of violations/NC, user roles: Admin or Master, user read-only |
-| V2.0b | Vessel (Offline) | V2.0a or V1.0a side nav | V2.0c (Edit logs), V2.1b (Detailed violation) | Crew list, daily or weekly overview; triggers sub-screen for detail |
-| V2.1b | Vessel (Offline) | V2.0b (violation click) | Return to V2.0b | Day-by-day or itemized flagged issues, read-only for standard users |
-| V2.0c | Vessel (Offline) | V2.0b (Edit icon) | Return to V2.0b | Time-based daily logs, potential violation warnings |
-| V3.0a | Vessel (Offline) | Main nav "Plan" toggle -Fixed | Return to main menu, V3.0b | Creation/editing of routine tasks |
-| V3.0b | Vessel (Offline) | Main nav "Plan" toggle- Variable | Return to main menu, V3.0a | Additional tasks with flexible scheduling |
+| V1.1a (Drill-Down) | Vessel (autonomous) | V1.0a (click metrics) | Back to V1.0a | Detailed list of violations/NC, user roles: Admin or Master, user read-only |
+| V2.0b | Vessel (autonomous) | V2.0a or V1.0a side nav | V2.0c (Edit logs), V2.1b (Detailed violation) | Crew list, daily or weekly overview; triggers sub-screen for detail |
+| V2.1b | Vessel (autonomous) | V2.0b (violation click) | Return to V2.0b | Day-by-day or itemized flagged issues, read-only for standard users |
+| V2.0c | Vessel (autonomous) | V2.0b (Edit icon) | Return to V2.0b | Time-based daily logs, potential violation warnings |
+| V3.0a | Vessel (autonomous) | Main nav "Plan" toggle -Fixed | Return to main menu, V3.0b | Creation/editing of routine tasks |
+| V3.0b | Vessel (autonomous) | Main nav "Plan" toggle- Variable | Return to main menu, V3.0a | Additional tasks with flexible scheduling |
 | O1.0a | Office Web Portal | SAIL App Main Menu (Office) | O1.x sub-screens, O2.0a | Multi-vessel watchlist, analytics |
 | O1.x | Office (portal) | O1.0a (click metric) | Return to O1.0a | Expanded analytics; includes sub-screens O1.1a - O1.6a for details |
 | O2.0a | Office (portal) | O1.0a or side nav | O2.0b (vessel details) | Summaries of vessel rest-hour records |

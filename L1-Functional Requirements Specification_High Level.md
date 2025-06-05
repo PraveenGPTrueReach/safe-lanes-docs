@@ -1,7 +1,7 @@
 L1-FRS: Functional Requirements Specification (FRS) (High-Level)
 
 1. Introduction
-This document outlines the high-level functional requirements for the SafeLanes Rest Hours Submodule, ensuring maritime rest-hour compliance (MLC, STCW, OPA) in both vessel (offline) and office (online) environments. It specifies the primary capabilities, system interactions, data handling, and key validation rules that enable authorized crew and office staff to record, review, and analyze rest-hour data while preventing silent overwrites of compliance-critical fields. Low-level technical details, design decisions, and implementation specifics appear in separate L3-LLD documents.
+This document outlines the high-level functional requirements for the SafeLanes Rest Hours Submodule, ensuring maritime rest-hour compliance (MLC, STCW, OPA) in both vessel (autonomous) and office (online) environments. It specifies the primary capabilities, system interactions, data handling, and key validation rules that enable authorized crew and office staff to record, review, and analyze rest-hour data while preventing silent overwrites of compliance-critical fields. Low-level technical details, design decisions, and implementation specifics appear in separate L3-LLD documents.
 
 
 2. Functional Requirements

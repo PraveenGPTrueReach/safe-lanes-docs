@@ -4,7 +4,7 @@
 
 ## 1. Introduction
 
-This document provides a comprehensive low-level design (LLD) for the Back-End (BE) component of the SafeLanes Rest Hours solution, based on Nest.js and MySQL. It aims to give developers a clear, detailed guide to implement, integrate, and maintain all required features, focusing on offline vessel operation, office aggregation, last-write-wins, and indefinite data retention.
+This document provides a comprehensive low-level design (LLD) for the Back-End (BE) component of the SafeLanes Rest Hours solution, based on Nest.js and MySQL. It aims to give developers a clear, detailed guide to implement, integrate, and maintain all required features, focusing on autonomous vessel operation, office aggregation, last-write-wins, and indefinite data retention.
 
 ---
 

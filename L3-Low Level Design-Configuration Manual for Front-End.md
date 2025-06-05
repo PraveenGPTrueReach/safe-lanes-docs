@@ -8,7 +8,7 @@ This Configuration Manual provides guidelines for post-deployment configuration 
 
 The Rest Hours FE is implemented as an Angular 18.2.0 microfrontend that can run in both vessel and office environments via runtime checks in a single compiled artifact. 
 
-Because the solution supports partially offline operation, the FE employs runtime detection (e.g., environment variables, window scope checks, or small config files) to switch between vessel and office settings after a single build. This avoids duplicative artifacts and simplifies updates, especially for offline vessels.
+Because the solution supports partially offline operation, the FE employs runtime detection (e.g., environment variables, window scope checks, or small config files) to switch between vessel and office settings after a single build. This avoids duplicative artifacts and simplifies updates, especially for autonomous vessels.
 
 ---
 
