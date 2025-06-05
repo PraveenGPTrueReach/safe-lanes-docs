@@ -20,10 +20,9 @@ This document outlines the high-level functional requirements for the SafeLanes 
   - Office Users and Office Admins can access aggregated vessel data. Per permissions granted in SAIL-app , they may have read-only or edit rights. By default, they only review data but do not edit.  
   - Office Super Admin has full edit capabilities across all vessels.  
   - External users have view-only access to vessel dashboards or analytics, as configured by SafeLanes RBAC.  
-- The system must prevent unauthorized edits,.  
-- 
+- The system must prevent unauthorized edits.  
 
-#### 2.3 Recording and Editing Daily Rest Hours
+#### 2.2 Recording and Editing Daily Rest Hours
 
 - The system must allow each crew member to record daily rest-work patterns in half-hour increments for a single day record (48 blocks).  
 - Users can create partial or complete entries. Each submission triggers immediate system checks for potential violations (MLC, STCW, OPA).  
@@ -31,25 +30,24 @@ This document outlines the high-level functional requirements for the SafeLanes 
 - Authorized roles must be able to edit historical logs).   
 - Office User, Office Admin or Office Super Admin must have read-only access to planning screens unless explicitly granted editing rights via SafeLanes RBAC settings.
 
-#### 2.4 Planning and Scheduling
+#### 2.3 Planning and Scheduling
 
 - Vessel Admin or Vessel Super Admin must be able to create “planned” tasks (fixed or variable) in a scheduling interface.  
 - Crew members see these “planned” time blocks in grey. They can confirm or adjust them in their actual daily log, without losing the original plan data.  
 - Office User, Office Admin or Office Super Admin must have read-only access to planning screens unless explicitly granted editing rights via SafeLanes RBAC settings.
 
-#### 2.5 Compliance Checks (MLC, STCW, OPA)
+#### 2.4 Compliance Checks (MLC, STCW, OPA)
 
 - The system must apply configurable numeric thresholds for MLC, STCW, and OPA compliance. If OPA is disabled, OPA violation codes (7 & 8\) are suppressed.  
 - The system must automatically detect rest-hour violations whenever users save or modify records.  
 - Predicted violations must be displayed to help users adjust schedules preemptively; actual violations remain authoritative for official logs.  
-- 
 
-#### 2.8 Indefinite Retention and Audit Logging
+#### 2.5 Indefinite Retention and Audit Logging
 
 - All rest-hour entries, plan data, conflict overwrites, and system logs must be retained indefinitely unless the client’s maritime policy directs otherwise.  
 - A protected audit log must track each update to compliance-critical records. This log must remain accessible to authorized Admins or Super Admins for compliance reviews.
 
-#### 2.9 Basic Reporting 
+#### 2.6 Basic Reporting 
 
 - Office dashboards must offer aggregated charting (violations by vessel, rank, or tasks) for multi-vessel oversight. Vessel-level dashboards must show daily or monthly summary for the assigned vessel.
 
@@ -60,7 +58,6 @@ This document outlines the high-level functional requirements for the SafeLanes 
 #### 3.1 Integration with SafeLanes Identity Service
 
 - The RH microservice must integrate with the existing SAIL-app JWT-based authentication.  
--   
 - JWT claims must at least provide: subject (user), user role, vessel scope. 
 
 #### 3.2 Microfrontend Hosting with SAIL App
@@ -103,7 +100,6 @@ This document outlines the high-level functional requirements for the SafeLanes 
 
 - An overwrite log entry must capture old value, new value, timestamp, reason (if provided), and user ID/role that triggered the overwrite.  
 - This log is immutable. The system must provide queries or an admin screen for authorized staff to review these logs.  
-- 
 
 ---
 
@@ -113,7 +109,6 @@ This document outlines the high-level functional requirements for the SafeLanes 
 
 - The system must not permit more than 24 total hours logged per calendar day. Any partial blocks exceeding 24 hours   
 - Each day’s record is validated for MLC, STCW, and OPA constraints. If the combined work hours extend beyond allowable limits (e.g., over 14-hour daily maximum for STCW), the system sets violation codes.  
-- 
 
 #### 5.2 Regulatory Ruleset Parameterization
 
@@ -122,7 +117,6 @@ This document outlines the high-level functional requirements for the SafeLanes 
 
 #### 5.3 Historical Edits
 
--   
 - The system must allow historical edits by authorized roles , then log them in the overwrite/audit logs for traceability.
 
 ---

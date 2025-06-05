@@ -2,6 +2,7 @@
 
 #### User Roles and Access Management
 
+
 ###### *User Roles*
 
 - There are 2 categories of users  
@@ -59,14 +60,14 @@
 
 ###### *User Workflows*
 
-\#\#\#\#\#\#\#\# 1\. Vessel User \#\#\#\#\#\#\#\#\#\# 1.1 Log In to the Vessel System
+######## 1\. Vessel User ########## 1.1 Log In to the Vessel System
 
 - Open the SAIL application on the local device  
 - Enter credentials to login  
   - The system authenticates using existing Safe Lanes login functionality.  
   - Access is restricted to the Vessel User’s role and assigned vessel
 
-\#\#\#\#\#\#\#\#\#\# 1.2 Access the Rest Hours Module
+########## 1.2 Access the Rest Hours Module
 
 - From the main menu, select “Rest Hours”  
 - Vessel User can access:  
@@ -74,7 +75,7 @@
   - Screen V2.0b and Recording Form (Screen V2.0c), To enter daily rest/work hours.  
 - Click dash on left navigation pane to open Screen V2.0b
 
-\#\#\#\#\#\#\#\#\#\# 1.3 Check the RH Vessel Overview (Screen V2.0b)
+########## 1.3 Check the RH Vessel Overview (Screen V2.0b)
 
 - The user can see their Rank, name and basic info: date range on the top  
 - Default view is for current month  
@@ -83,7 +84,7 @@
 - User can also Filter using a date range (e.g., current week or month)  
 - Clicking on Total Violations or Total NCs opens up Screen V2.1b which shows the violation or NC details for the User
 
-\#\#\#\#\#\#\#\#\#\# 1.4 Record Daily Rest Hours (Screen V2.0c)
+########## 1.4 Record Daily Rest Hours (Screen V2.0c)
 
 - Open the Recording Form for the current date by Clicking "View" clickable icon next to his details on Screen V2.0b  
 - View His Rank, Name on the top and filter entries by checking or unchecking Planning/OPA/Date Range  
@@ -101,7 +102,7 @@
 - Save Entriesby clicking "Apply" button  
   - Apply or Save triggers immediate validation checks for potential violations
 
-\#\#\#\#\#\#\#\#\#\# 1.5 View  Violations (Screen V2.0c)
+########## 1.5 View  Violations (Screen V2.0c)
 
 - Violation Codes  
   - If the total work hours exceed allowed limits (daily or weekly), the system automatically shows a violation code.  
@@ -109,21 +110,21 @@
 - Resolve or Acknowledge  
   - The Vessel User can modify their entries immediately to resolve any violations, or they can leave them as-is
 
-\#\#\#\#\#\#\#\#\#\# 1.6 Log Out
+########## 1.6 Log Out
 
 - End the Session by logging out of the application.  
 - The user can log back in at any time to update entries (for the current open period) or to address any newly flagged violations
 
-\#\#\#\#\#\#\#\# 2\. Vessel Admin
+######## 2\. Vessel Admin
 
-\#\#\#\#\#\#\#\#\#\# 2.1 Log In to the Vessel System
+########## 2.1 Log In to the Vessel System
 
 - Open the SAIL application on the local device  
 - Enter credentials to login  
   - The system authenticates using existing Safe Lanes login functionality.  
   - Access is restricted to the Vessel Admin’s role and assigned vessel
 
-\#\#\#\#\#\#\#\#\#\# 2.2 Access the Rest Hours Module
+########## 2.2 Access the Rest Hours Module
 
 - From the main menu, select “Rest Hours”  
 - Vessel Admin can access:  
@@ -132,7 +133,7 @@
   - Planning – Fixed Tasks (Screen V3.0a)  
   - Planning – Variable Tasks (Screen V3.0b)
 
-\#\#\#\#\#\#\#\#\#\# 2.3 Check Vessel Overview (Screen V2.0b)
+########## 2.3 Check Vessel Overview (Screen V2.0b)
 
 - Navigate to Dash from left side navigation pane which shows Vessel Overview (Screen V2.0b)  
   - the Vessel Admin can see details of all crew in their Department, their Rank, name and basic info  
@@ -148,7 +149,7 @@
   - The Recording Status bar shows completion status of entries for the selected duration  
   - View which Vessel Users have incomplete data or unresolved issues
 
-\#\#\#\#\#\#\#\#\#\# 2.4 Record Daily Rest Hours (Screen V2.0c)
+########## 2.4 Record Daily Rest Hours (Screen V2.0c)
 
 - Open the Recording Form for the current date by Clicking "View" clickable icon next to his details on Screen V2.0b  
 - View His Rank, Name on the top and filter entries by checking or unchecking Planning/OPA/Date Range  
@@ -165,7 +166,7 @@
 - Save Entries by clicking "Apply" button  
   - Apply or Save triggers immediate validation checks for potential violations.
 
-\#\#\#\#\#\#\#\#\#\# 2.5 Manage Planning (Fixed & Variable Tasks)
+########## 2.5 Manage Planning (Fixed & Variable Tasks)
 
 - Click on Plan button in Left navigation pane to access Planning form (Screen V3.0a)  
 - Vessel Admin can create/edit tasks for his department personnel  
@@ -183,7 +184,7 @@
     - Variable Tasks can be added by clicking "Add" button with start/finish times and assign crew from a pop-up menu. Option to enter remarks and mark task as Planned or Executed  
     - Mark tasks “planned” initially (grey). User or admin can later mark them “w” or "d" or "a" or override if actual events differ.
 
-\#\#\#\#\#\#\#\#\#\# 2.6 Advance or Retard a Day
+########## 2.6 Advance or Retard a Day
 
 - Click on Plan button in Left navigation pane to access Planning form (Screen V3.0a)  
 - Vessel Admin can Advance or Retard a day  
@@ -194,28 +195,28 @@
   - If the user clicks on checkbox next to Retard 1 Day then another row with same date is created in RH recording sheet (e.g. if date selected is 13th and Retard 1 Daycheckbox is clicked, an additional row with same date, 13th is created below 13th for recording rest hours)  
   - These changes will reflect in all screens pertaining to rest hours recording
 
-\#\#\#\#\#\#\#\#\#\# 2.7 Review & Oversee Crew Records (Recording Form 2c)
+########## 2.7 Review & Oversee Crew Records (Recording Form 2c)
 
 - Vessel Admin can View records for Crew members in his department by clicking "View" icon next to crew member name in Screen V2.0b. This will open Screen V2.0c for respective crew member  
 - Vessel Admin can Edit records for Crew members in his department by clicking "Edit" icon next to crew member name in Screen V2.0b. This will open Screen V2.0c for respective crew member where admin can edit details if permission to do so has been provided in the SAIL application  
 - Vessel Admin may update rest-hour entries on behalf of a crew member  
 - The system will re-check for violations upon saving.
 
-\#\#\#\#\#\#\#\#\#\# 2.8 Log Out
+########## 2.8 Log Out
 
 - End the Session by logging out of the application.  
 - The user can log back in at any time to update entries (for the current open period) or to address any newly flagged violations
 
-\#\#\#\#\#\#\#\# 3\. Vessel Super Admin
+######## 3\. Vessel Super Admin
 
-\#\#\#\#\#\#\#\#\#\# 3.1 Log In to the Vessel System
+########## 3.1 Log In to the Vessel System
 
 - Open the SAIL application on the local device  
 - Enter credentials to login  
   - The system authenticates using existing Safe Lanes login functionality.  
   - Vessel Super Admin can access all information pertaining to all Users and Admins on the assigned Vessel
 
-\#\#\#\#\#\#\#\#\#\# 3.2 Access RH Vessel Dashboard
+########## 3.2 Access RH Vessel Dashboard
 
 - this is the default screen that opens up when Vessel Super Admin logs in (Screen V1.0a)  
   - Can view details only for own Vessel  
@@ -227,7 +228,7 @@
   - Rank & Dept. Analysis  \- Displays which ranks/departments (e.g., 2/E, 3/O, C/E) have the highest violation or NC count.  
   - Task Analysis  \- Bar chart illustrating how many violations or NCs are tied to specific tasks or events
 
-\#\#\#\#\#\#\#\#\#\# 3.3 Access the Rest Hours Module
+########## 3.3 Access the Rest Hours Module
 
 - From the main menu, select “Rest Hours”  
 - Vessel Super Admin can access:  
@@ -237,7 +238,7 @@
   - Planning – Fixed Tasks (Screen V3.0a)  
   - Planning – Variable Tasks (Screen V3.0b)
 
-\#\#\#\#\#\#\#\#\#\# 3.4 Check Vessel Overview (Screen V2.0b)
+########## 3.4 Check Vessel Overview (Screen V2.0b)
 
 - Navigate to Dash from left side navigation pane which shows Vessel Overview (Screen V2.0b)  
   - the Vessel Super Admin can see details of all crew, their Rank, name and basic info  
@@ -253,7 +254,7 @@
   - The Recording Status bar shows completion status of entries for the selected duration  
   - View which Vessel Users or Admins have incomplete data or unresolved issues
 
-\#\#\#\#\#\#\#\#\#\# 3.5 Record Daily Rest Hours (Screen V2.0c)
+########## 3.5 Record Daily Rest Hours (Screen V2.0c)
 
 - Open the Recording Form for the current date by Clicking “Record” on Left Navigation Pane  
 - View His Rank, Name on the top and filter entries by checking or unchecking Planning/OPA/Date Range  
@@ -270,7 +271,7 @@
 - Save Entries by clicking "Apply" button  
   - Apply or Save triggers immediate validation checks for potential violations.
 
-\#\#\#\#\#\#\#\#\#\# 3.6 Manage Planning (Fixed & Variable Tasks)
+########## 3.6 Manage Planning (Fixed & Variable Tasks)
 
 - Click on Plan button in Left navigation pane to access Planning form (Screen V3.0a)  
 - Vessel Super Admin can create/edit tasks for all vessel users and admins  
@@ -288,7 +289,7 @@
     - Variable Tasks can be added by clicking "Add" button with start/finish times and assign crew from a pop-up menu. Option to enter remarks and mark task as Planned or Executed  
     - Mark tasks “planned” initially (grey). User or admin can later mark them “w” or "d" or "a" or override if actual events differ.
 
-\#\#\#\#\#\#\#\#\#\# 3.7 Advance or Retard a Day
+########## 3.7 Advance or Retard a Day
 
 - Click on Plan button in Left navigation pane to access Planning form (Screen V3.0a)  
 - Vessel Admin can Advance or Retard a day  
@@ -299,21 +300,21 @@
   - If the user clicks on checkbox next to Retard 1 Day then another row with same date is created in RH recording sheet (e.g. if date selected is 13th and Retard 1 Daycheckbox is clicked, an additional row with same date, 13th is created below 13th for recording rest hours)  
   - These changes will reflect in all screens pertaining to rest hours recording
 
-\#\#\#\#\#\#\#\#\#\# 3.8 Review & Oversee Crew Records (Recording Form 2c)
+########## 3.8 Review & Oversee Crew Records (Recording Form 2c)
 
 - Vessel Super Admin can View records for all vessel users and admins by clicking "View" icon next to crew member name in Screen V2.0b. This will open Screen V2.0c for respective crew member  
 - Vessel Super Admin can Edit records for all vessel users and admins by clicking "Edit" icon next to crew member name in Screen V2.0b. This will open Screen V2.0c for respective crew member where admin can edit details if permission to do so has been provided in the SAIL application  
 - Vessel Super Admin may update rest-hour entries on behalf of a crew member  
 - The system will re-check for violations upon saving.
 
-\#\#\#\#\#\#\#\#\#\# 3.9 Log Out
+########## 3.9 Log Out
 
 - End the Session by logging out of the application.  
 - The user can log back in at any time to update entries (for the current open period) or to address any newly flagged violations
 
-\#\#\#\#\#\#\#\# 4\. External
+######## 4\. External
 
-\#\#\#\#\#\#\#\#\#\# 4.1 Log In to the SAIL app
+########## 4.1 Log In to the SAIL app
 
 - Open the SAIL application on the browser  
 - Enter credentials to login  
@@ -321,16 +322,16 @@
   - User will have only view access to the Rest Hours Data for the vessel Screen V1.0a  
   - Permissions will be governed through Admin Panel in the SAIL app
 
-\#\#\#\#\#\#\#\# 5\. Office User
+######## 5\. Office User
 
-\#\#\#\#\#\#\#\#\#\# 5.1 Log In to the SAIL app
+########## 5.1 Log In to the SAIL app
 
 - Open the SAIL application on the office device browser  
 - Enter credentials to login  
   - The system authenticates using existing Safe Lanes login functionality.  
   - Access is limited to vessels and data the user is authorized to manage or view
 
-\#\#\#\#\#\#\#\#\#\# 5.2 Access the Rest Hours Module
+########## 5.2 Access the Rest Hours Module
 
 - From the main menu, select “Rest Hours”  
 - Office User can access:  
@@ -338,7 +339,7 @@
   - Recording Screens O2.0a, O2.0b and O2.0c  
   - Depending upon CLient policy they may have right to edit Screen V2.0c
 
-\#\#\#\#\#\#\#\#\#\# 5.3 Access the Rest Hours Dashboard
+########## 5.3 Access the Rest Hours Dashboard
 
 - This is the default screen that opens up when the Office User logs in (Screen O1.0a)  
 - Default view is for current month  
@@ -374,7 +375,7 @@
   - Task Analysis  
     - Bar chart illustrating how many violations or NCs are tied to specific tasks or events
 
-\#\#\#\#\#\#\#\#\#\# 5.4 Review Recording Screens (O2.0a, O2.0b, O2.0c)
+########## 5.4 Review Recording Screens (O2.0a, O2.0b, O2.0c)
 
 - These Screens are similar to Vessel Screens V2.0a, V2.0b and V2.0c except from an office user perspective  
 - Office User can click on Record on left navigation pane to access Screen O2.0a  
@@ -401,27 +402,27 @@
       - Office User can click on Apply to save any changes made  
       - Office User can clear to Undo any changes made
 
-\#\#\#\#\#\#\#\#\#\# 5.5 View Planning Screens (Screens O3.0a and O3.0b)
+########## 5.5 View Planning Screens (Screens O3.0a and O3.0b)
 
 - Office User can click on Plan in left navigation pane to view Screens O3.0a and O3.0b  
 - These screens are similar to Vessel side Screens V3.0a and V3.0b  
 - USer will have only view access for these screens
 
-\#\#\#\#\#\#\#\#\#\# 5.6 Log Out
+########## 5.6 Log Out
 
 - End the Session by logging out of the application.  
 - The user can log back in at any time to view rest hours module again
 
-\#\#\#\#\#\#\#\# 6\. Office Admin
+######## 6\. Office Admin
 
-\#\#\#\#\#\#\#\#\#\# 6.1 Log In to the SAIL app
+########## 6.1 Log In to the SAIL app
 
 - Open the SAIL application on the office device  
 - Enter credentials to login  
   - The system authenticates using existing Safe Lanes login functionality.  
   - Access is limited to vessels, vessel groups and data the user is authorized to manage or view
 
-\#\#\#\#\#\#\#\#\#\# 6.2 Access the Rest Hours Module
+########## 6.2 Access the Rest Hours Module
 
 - From the main menu, select “Rest Hours”  
 - Office Admin can access:  
@@ -429,7 +430,7 @@
   - Recording Screens O2.0a, O2.0b and O2.0c  
   - Depending upon CLient policy they may have right to edit Screen V2.0c
 
-\#\#\#\#\#\#\#\#\#\# 6.3 Access the Rest Hours Dashboard
+########## 6.3 Access the Rest Hours Dashboard
 
 - This is the default screen that opens up when the Office Admin logs in (Screen O1.0a)  
 - Default view is for current month  
@@ -466,7 +467,7 @@
   - Task Analysis  
     - Bar chart illustrating how many violations or NCs are tied to specific tasks or events
 
-\#\#\#\#\#\#\#\#\#\# 6.4 Review Recording Screens (O2.0a, O2.0b, O2.0c)
+########## 6.4 Review Recording Screens (O2.0a, O2.0b, O2.0c)
 
 - These Screens are similar to Vessel Screens V2.0a, V2.0b and V2.0c except from an office user perspective  
 - Office Admin can click on Record on left navigation pane to access Screen O2.0a  
@@ -494,27 +495,27 @@
       - Office Admin can click on Apply to save any changes made  
       - Office Admin can clear to Undo any changes made
 
-\#\#\#\#\#\#\#\#\#\# 6.5 View Planning Screens (Screens O3.0a and O3.0b)
+########## 6.5 View Planning Screens (Screens O3.0a and O3.0b)
 
 - User can click on Plan in left navigation pane to view Screens O3.0a and O3.0b  
 - These screens are similar to Vessel side Screens V3.0a and V3.0b  
 - USer will have only view access for these screens
 
-\#\#\#\#\#\#\#\#\#\# 6.6 Log Out
+########## 6.6 Log Out
 
 - End the Session by logging out of the application.  
 - The user can log back in at any time to view rest hours module again
 
-\#\#\#\#\#\#\#\# 7\. Office Super Admin
+######## 7\. Office Super Admin
 
-\#\#\#\#\#\#\#\#\#\# 7.1 Log In to the SAIL app
+########## 7.1 Log In to the SAIL app
 
 - Open the SAIL application on the office device  
 - Enter credentials to login  
   - The system authenticates using existing Safe Lanes login functionality.  
   - Office Super Admin has full access to complete solution, all screens and data
 
-\#\#\#\#\#\#\#\#\#\# 7.2 Access the Rest Hours Module
+########## 7.2 Access the Rest Hours Module
 
 - From the main menu, select “Rest Hours”  
 - Office Super Admin can access:  
@@ -522,7 +523,7 @@
   - Recording Screens O2.0a, O2.0b and O2.0c  
   - Office Super Admin will have access to all the features of Rest Hours module
 
-\#\#\#\#\#\#\#\#\#\# 6.3 Access the Rest Hours Dashboard
+########## 6.3 Access the Rest Hours Dashboard
 
 - This is the default screen that opens up when the Office Super Admin logs in (Screen O1.0a)  
 - Default view is for current month  
@@ -559,7 +560,7 @@
   - Task Analysis  
     - Bar chart illustrating how many violations or NCs are tied to specific tasks or events
 
-\#\#\#\#\#\#\#\#\#\# 7.4 Review Recording Screens (O2.0a, O2.0b, O2.0c)
+########## 7.4 Review Recording Screens (O2.0a, O2.0b, O2.0c)
 
 - These Screens are similar to Vessel Screens V2.0a, V2.0b and V2.0c except from an office user perspective  
 - Office Super Admin can click on Record on left navigation pane to access Screen O2.0a  
@@ -586,17 +587,17 @@
       - User can click on Apply to save any changes made  
       - User can clear to Undo any changes made
 
-\#\#\#\#\#\#\#\#\#\# 7.5 View Planning Screens (Screens O3.0a and O3.0b)
+########## 7.5 View Planning Screens (Screens O3.0a and O3.0b)
 
 - User can click on Plan in left navigation pane to view Screens O3.0a and O3.0b  
 - These screens are similar to Vessel side Screens V3.0a and V3.0b  
 - USer will have only view access for these screens
 
-\#\#\#\#\#\#\#\#\#\# 7.6 Manage Access Controls
+########## 7.6 Manage Access Controls
 
 - Office Super Admin can manage access controls for all Users and Admins in the SAIL application
 
-\#\#\#\#\#\#\#\#\#\# 7.7 Log Out
+########## 7.7 Log Out
 
 - End the Session by logging out of the application.  
 - The Office Super Admin can log back in at any time to view rest hours module again

@@ -69,37 +69,37 @@ To achieve these objectives, the submodule will be delivered as a **standalone m
 - Offline access on vessel side with local DB.
 
 
-**flowchart** LR  
-**subgraph** subGraph0\["Vessel LAN Network"\]  
-       phone1(\["Phone/ Computer"\])  
-       localServer1(\["Local Server"\])  
-       localDB1(\["Local DB"\])  
- **end**  
-**subgraph** subGraph1\["Vessel 1"\]  
-       subGraph0  
- **end**  
-**subgraph** subGraph2\["Vessel LAN Network"\]  
-       phone2(\["Phone / Computer"\])  
-       localServer2(\["Local Server"\])  
-       localDB2(\["Local DB"\])  
- **end**  
-**subgraph** subGraph3\["Vessel 2"\]  
-       subGraph2  
- **end**  
-**subgraph** subGraph4\["Vessel LAN Network"\]  
-       phone3(\["Phone / Computer"\])  
-       localServer3(\["Local Server"\])  
-       localDB3(\["Local DB"\])  
- **end**  
-**subgraph** subGraph5\["Vessel 3"\]  
-       subGraph4  
- **end**  
-   phone1 **\--\>** localServer1  
-   localServer1 **\--\>** localDB1  
-   phone2 **\--\>** localServer2  
-   localServer2 **\--\>** localDB2  
-   phone3 **\--\>** localServer3  
-   localServer3 **\--\>** localDB3
+flowchart LR
+subgraph subGraph0["Vessel LAN Network"]
+       phone1(["Phone/ Computer"])
+       localServer1(["Local Server"])
+       localDB1(["Local DB"])
+ end
+subgraph subGraph1["Vessel 1"]
+       subGraph0
+ end
+subgraph subGraph2["Vessel LAN Network"]
+       phone2(["Phone / Computer"])
+       localServer2(["Local Server"])
+       localDB2(["Local DB"])
+ end
+subgraph subGraph3["Vessel 2"]
+       subGraph2
+ end
+subgraph subGraph4["Vessel LAN Network"]
+       phone3(["Phone / Computer"])
+       localServer3(["Local Server"])
+       localDB3(["Local DB"])
+ end
+subgraph subGraph5["Vessel 3"]
+       subGraph4
+ end
+   phone1 --> localServer1
+   localServer1 --> localDB1
+   phone2 --> localServer2
+   localServer2 --> localDB2
+   phone3 --> localServer3
+   localServer3 --> localDB3
 
  
 

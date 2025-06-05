@@ -14,7 +14,7 @@ Note: If the existing Sail App is not yet on Angular 18.2.0 or higher, the SafeL
 - **Non-Conformities & Violations**: System-detected indicators of rest-hour breaches. Handled both at vessel and office levels.  
 - **External**: Read-only (auditor) role that can view rest-hour data for oversight, without editing permissions.
 
-### 3\. Data Flow
+### 2\. Data Flow
 
 1. **Onboard Data Entry**: Crew record daily rest/work blocks on the vessel (local DB).  
      
@@ -30,7 +30,7 @@ Note: If the existing Sail App is not yet on Angular 18.2.0 or higher, the SafeL
 
 There is no direct financial flow in this module. The system primarily handles operational and compliance data.
 
-### 4\. Key Components
+### 3\. Key Components
 
 - **Microfrontend (Angular)**  
   In order to streamline Module Federation, the team will utilize Angular 18.2.0, which offers better integrated support for microfrontends and reduces configuration complexities. On vessels operating offline, the microfrontend can be loaded from a local server
@@ -52,11 +52,10 @@ There is no direct financial flow in this module. The system primarily handles o
 - **Authentication & RBAC**  
   Utilizes SafeLanes JWT-based auth. Existing roles are extended (or new claims created) for Vessel/Office user distinctions and optional External read-only access. 
 
-### 5\. High-Level Architecture
+### 4\. High-Level Architecture
 
 - **On-Prem Vessel Servers**: Each vessel runs the Nest.js service on a local server (Linux or Windows) with MySQL. Nginx and PM2 handle application processes.  
 - **Office Server**: Another Nest.js instance (the same codebase) and MySQL run on on-prem or hosted hardware (16 GB RAM, 4 cores).  
--   
 - **Offline Microfrontend Loading**: During isolated operation, each vessel serves the Rest Hours microfrontend from its local server, ensuring the UI remains accessible. A local copy of the compiled microfrontend is bundled in the vessel deployment package, preventing any dependence on external URLs.  
 - **Development Stack**:  
   - Angular microfrontend (version 18.2.0) with Module Federation support.  
@@ -64,7 +63,7 @@ There is no direct financial flow in this module. The system primarily handles o
   - MySQL 8.x or similar for both vessel and office databases.  
   - PM2 for process management, Nginx for reverse proxy.
 
-### 6\. Non-Standard Elements
+### 5\. Non-Standard Elements
 
 - **Offline Operation**  
   Each vessel instance is fully autonomous while offline, storing data locally.  
@@ -84,7 +83,7 @@ There is no direct financial flow in this module. The system primarily handles o
 - **Module Federation**  
   Leveraging Angular 18.2.0’s built-in support allows the rest-hour front-end to load dynamically in the existing Sail App at runtime.
 
-### 7\. High-Level Deployment & Integration Strategy
+### 6\. High-Level Deployment & Integration Strategy
 
 - **Deployment Environment**  
     
