@@ -77,7 +77,7 @@ This document provides a system-wide overview of the primary technologies, frame
 
 - No containerization (Docker) used; deployments rely on standard Node.js build and packaging scripts.  
 - Angular and Nest.js compilation output is packaged into versioned artifacts.  
-- 
+
 
 ### Manual Release Cycles
 
@@ -98,7 +98,7 @@ This document provides a system-wide overview of the primary technologies, frame
 - No direct reliance on external APIs or cloud-based SaaS for core rest-hour functions.  
 - TLS certificates may be acquired from external Certificate Authorities (e.g., LetsEncrypt), but issuance and rotation remain the client’s choice.
 
-## 7\. Testing and QA
+## Testing and QA
 
 - The project will use standard testing frameworks to maintain code quality and reliability without overengineering for the current scale.  
 - For the back-end (Nest.js) code, Jest is the primary framework for unit and integration tests. Critical modules such as rest-hour validation logic receive priority coverage.  

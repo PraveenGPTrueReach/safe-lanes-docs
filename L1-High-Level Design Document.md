@@ -8,16 +8,15 @@ This document provides a concise, high-level overview of the SafeLanes Rest Hour
 
 This section summarizes the overall structure of the system, highlighting how vessel-based subsystems and the office environment achieve rest-hour logging, validation, and reporting. The solution operates offline on vessels,. 
 
-**flowchart** LR  
-   A\["Vessel Devices \- Crew/Admin UI"\] **\--** Local LAN **\--\>** B\["Vessel Server \- Nest.js \+ MySQL"\]  
-   B **\--** Offline Fallback **\--\>** A
+flowchart LR
+   A["Vessel Devices - Crew/Admin UI"] -- Local LAN --> B["Vessel Server - Nest.js + MySQL"]
+   B -- Offline Fallback --> A
 
 #### Key Highlights
 
 - Vessel environment includes an on-prem server running the Nest.js backend and MySQL.  
 - Office environment has a similar Nest.js instance and MySQL database, aggregating data across the fleet.  
 - Angular microfrontends (vessel/office) connect to their local or remote Nest.js backends.  
-- 
 
 ---
 
@@ -75,9 +74,7 @@ flowchart TB
 
 #### Databases (MySQL)
 
-- Vessel database stores offline data.  
--   
-- 
+- Vessel database stores offline data.
 
 ---
 
@@ -85,16 +82,18 @@ flowchart TB
 
 High-level API communication ensures consistent data flow between front-end UIs, back-end services, and databases. 
 
-**sequenceDiagram**  
- participant FE as Angular Front\-End  
+sequenceDiagram
+ participant FE as Angular Front-End
  participant VesselBE as Nest.js (Vessel)
 
- Note over FE**:** 1\) Crew enters rest hours  
- FE **\-\>\>** VesselBE**:** POST/PUT /resthours/daily  
- VesselBE **\-\>\>** VesselBE**:** Validate, store in MySQL  
- VesselBE **\--\>\>** FE**:** OK \+ Violation flags  
- Note over VesselBE**:** 2\) Sync triggered  
- VesselBE **\-\>\>** VesselBE**:** Merge updates locally
+
+ Note over FE: 1) Crew enters rest hours
+ FE ->> VesselBE: POST/PUT /resthours/daily
+ VesselBE ->> VesselBE: Validate, store in MySQL
+ VesselBE -->> FE: OK + Violation flags
+ Note over VesselBE: 2) Sync triggered
+ VesselBE ->> VesselBE: Merge updates locally
+
 
 #### Communication Protocols & Data Formats
 
@@ -107,15 +106,15 @@ High-level API communication ensures consistent data flow between front-end UIs,
 
 Below is a simplified depiction of how data flows between sources (crew, office admins), processes (Nest.js logic), and storage (databases). Each vessel maintains offline autonomy, merging with the office DB.
 
-**flowchart** LR  
-**subgraph** Vessel\["Vessel"\]  
-       B\["Daily Rest-Hour Records"\]  
-       A\["Crew Inputs"\]  
-       C{"Local DB MySQL"}  
- **end**  
-   A **\--\>** B  
-   B **\--\>** C  
-   C **\--\>** B
+flowchart LR
+subgraph Vessel["Vessel"]
+       B["Daily Rest-Hour Records"]
+       A["Crew Inputs"]
+       C{"Local DB MySQL"}
+ end
+   A --> B
+   B --> C
+   C --> B
 
 #### Data Flow & Storage Strategy
 
@@ -143,8 +142,7 @@ Integration points exist for authentication, external read-only auditor access, 
 
 #### Front-End
 
-- Angular 18.2.0with Module Federation for microfrontend integration.  
-- 
+- Angular 18.2.0with Module Federation for microfrontend integration. 
 
 #### Back-End
 
@@ -152,8 +150,7 @@ Integration points exist for authentication, external read-only auditor access, 
 
 #### Database
 
-- MySQL 8.x on both vessel and office sides, balancing reliability and ease of offline usage.  
-- 
+- MySQL 8.x on both vessel and office sides, balancing reliability and ease of offline usage. 
 
 #### CI/CD & Deployment
 
@@ -166,20 +163,18 @@ Integration points exist for authentication, external read-only auditor access, 
 
 Security focuses on role-based authentication, data encryption, and offline session handling..
 
-**flowchart** LR  
-   A\["User w/ JWT"\] **\--** Login Request **\--\>** B\["Vessel Nest.js"\]  
-   B **\--** Check Token  **\--\>** C\["Local Auth Logic"\]  
-   B **\--** Authorized Access **\--\>** D\["MySQL \+ FDE"\]
+flowchart LR
+   A["User w/ JWT"] -- Login Request --> B["Vessel Nest.js"]
+   B -- Check Token  --> C["Local Auth Logic"]
+   B -- Authorized Access --> D["MySQL + FDE"]
 
 #### Authentication & Authorization
 
 - JWT-based login.  
 - Predefined roles limit access (Vessel User, Admin, Office User, etc.).  
-- 
 
 #### Compliance Considerations
 
-- .  
 - Overwritten data is preserved in an immutable audit log for potential external review.
 
 ---
@@ -188,16 +183,16 @@ Security focuses on role-based authentication, data encryption, and offline sess
 
 The software is deployed on a dedicated server for each vessel (offline-ready) and a central office server. Daily snapshot backups are recommended in both environments. Vessel servers use PM2 \+ Nginx to host the Nest.js application and serve the Angular microfrontend fallback.
 
-**flowchart** TB  
-**subgraph** subGraph0\["Vessel Deployment"\]  
-       V1\["Local Server\<br\>Linux/Windows"\]  
-       V2\["NGINX \+ PM2"\]  
-       V3\["Nest.js"\]  
-       V4\["MySQL Encrypted Disk"\]  
- **end**  
-   V2 **\--\>** V3  
-   V3 **\--\>** V4  
-   V2 **\--** Local Fallback **\--\>** V1
+flowchart TB
+subgraph subGraph0["Vessel Deployment"]
+       V1["Local Server<br>Linux/Windows"]
+       V2["NGINX + PM2"]
+       V3["Nest.js"]
+       V4["MySQL Encrypted Disk"]
+ end
+   V2 --> V3
+   V3 --> V4
+   V2 -- Local Fallback --> V1
 
 #### CI/CD Processes
 

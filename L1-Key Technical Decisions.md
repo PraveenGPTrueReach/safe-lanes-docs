@@ -1,6 +1,5 @@
 ## L1-KD: Key Technical Decisions
 
-- 
 
 ### Decision 1: Single-Record-Per-Day Schema
 

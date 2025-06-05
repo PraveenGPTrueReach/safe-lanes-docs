@@ -29,8 +29,7 @@ The following risks are categorized based on primary domains (e.g., Architecture
      
    - **Description**: JWT-based authentication require careful token revocation and re-auth. Errors or stale tokens could lock out legitimate users.  
    - **Likelihood**: Medium.  
-   - **Impact**: High (crew unable to log hours, triggering compliance gaps).  
-   - .
+   - **Impact**: High (crew unable to log hours, triggering compliance gaps).
 
    
 
